@@ -2,11 +2,13 @@ package com.jjmin.mbliecontent.data.model
 
 import com.google.gson.annotations.SerializedName
 
-data class LoginData(
+class LoginData{
     @SerializedName("success")
-    val success: String,
+    val success: Boolean? = null
+
     @SerializedName("message")
-    val message: String,
+    val message: String? = null
+
     @SerializedName("user")
-    val user : UserInfo
-    )
+    val user : UserInfo? = null
+}

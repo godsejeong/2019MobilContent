@@ -66,7 +66,7 @@
                 android:background="@drawable/bg_login_btn"
                 android:backgroundTint="#ff4d73"
                 android:text="업자용"
-                android:onClick="@{vm.BusinessClick}"
+                android:onClick="@{vm.BusinessButton}"
                 android:textColor="@android:color/white"
                 android:textSize="15sp"
                 android:textStyle="bold" />
@@ -83,7 +83,7 @@
                 android:text="사용자용"
                 android:textColor="@android:color/white"
                 android:textSize="15sp"
-                android:onClick="@{vm.UserClick}"
+                android:onClick="@{vm.UserButton}"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/loginBusinessBtn" />

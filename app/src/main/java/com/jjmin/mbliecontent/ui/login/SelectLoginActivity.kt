@@ -2,6 +2,7 @@ package com.jjmin.mbliecontent.ui.login
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.lifecycle.Observer
 import com.jjmin.mbliecontent.R
 import com.jjmin.mbliecontent.databinding.ActivitySelectLoginBinding
 import com.jjmin.mbliecontent.ui.base.BaseActivity
@@ -18,6 +19,7 @@ class SelectLoginActivity : BaseActivity<ActivitySelectLoginBinding>() {
         super.onCreate(savedInstanceState)
 
         viewDataBinding.vm = viewmodel
+
 
     }
 }

@@ -26,7 +26,7 @@ object Modules{
 
     val LoginModule = module {
         viewModel {(usecase : LoginUseCase) ->
-            LoginViewModel(usecase)
+            LoginViewModel(usecase,get())
         }
     }
 

@@ -7,7 +7,7 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 
 object NetworkModules{
-    var url = "http://root.hyunwoo.kim:15000"
+    var url = "http://ec2-3-113-6-5.ap-northeast-1.compute.amazonaws.com:3000"
 
     val networkModules = module {
         single {

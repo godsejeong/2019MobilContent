@@ -5,26 +5,32 @@ import android.content.Context
 import com.jjmin.mbliecontent.di.Modules
 import com.jjmin.mbliecontent.di.NetworkModules
 import com.jjmin.mbliecontent.di.RepositoryModules
+import com.jjmin.mbliecontent.util.ORMUtils
 import org.koin.core.context.startKoin
 import org.koin.core.module.Module
+import org.koin.dsl.module
 
 class MyApplication : Application() {
 
     var context : Context? = null
 
-    val appModule = listOf(
-        NetworkModules.networkModules,
-        RepositoryModules.repositotyModule,
-        Modules.uiModule)
 
     override fun onCreate() {
         super.onCreate()
 
         startKoin {
             this@MyApplication
-            appModule
+            modules(
+                Modules.LoginModule,
+                Modules.splashModule,
+                Modules.MainModule,
+                Modules.RegisterModule,
+                NetworkModules.networkModules,
+                RepositoryModules.loginmodule
+            )
         }
 
         context = this
+        ORMUtils.setORM(this)
     }
 }

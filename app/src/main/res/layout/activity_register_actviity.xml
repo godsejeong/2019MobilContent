@@ -28,7 +28,7 @@
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintLeft_toLeftOf="parent"
                     android:id="@+id/registerFinishImg"
-                    android:onClick="@{vm.BackClick}"
+                    android:onClick="@{vm.BackButton}"
                     android:background="@drawable/ic_chevron_left_black_44dp"
                     app:layout_constraintRight_toLeftOf="@+id/registerFinishTv"
                     android:layout_width="wrap_content"
@@ -151,8 +151,6 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
-
-
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <Button
@@ -167,7 +165,6 @@
                 android:text="Sign Up"
                 android:textColor="@android:color/white"
                 android:textSize="15sp"
-                android:onClick="@{vm.UserClick}"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"/>
 

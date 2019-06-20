@@ -59,9 +59,9 @@
 
         <com.google.android.material.textfield.TextInputLayout
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toTopOf="@+id/loginPwEt"
+                app:layout_constraintBottom_toTopOf="@+id/loginPw"
                 android:layout_width="match_parent"
-                android:id="@+id/loginIdEt"
+                android:id="@+id/loginId"
                 android:hint="ID"
                 android:theme="@style/LoginTextStyle"
                 android:textColorHint="#00264b"
@@ -70,6 +70,7 @@
                 android:layout_height="wrap_content">
 
             <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/loginIdEt"
                     android:layout_width="match_parent"
                     android:textSize="15sp"
                     android:layout_height="wrap_content"/>
@@ -77,9 +78,9 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-                app:layout_constraintTop_toBottomOf="@+id/loginIdEt"
+                app:layout_constraintTop_toBottomOf="@+id/loginId"
                 android:layout_width="match_parent"
-                android:id="@+id/loginPwEt"
+                android:id="@+id/loginPw"
                 android:theme="@style/LoginTextStyle"
                 android:hint="PASSWORD"
                 android:layout_marginTop="15dp"
@@ -89,6 +90,7 @@
                 android:layout_height="wrap_content">
 
             <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/loginPwEt"
                     android:layout_width="match_parent"
                     android:textSize="15sp"
                     android:layout_height="wrap_content"/>
@@ -111,6 +113,7 @@
                 android:layout_marginRight="23dp"
                 android:backgroundTint="#ff4d73"
                 android:text="로그인"
+                android:onClick="@{() -> vm.LoginClick()}"
                 android:textColor="@android:color/white"
                 android:textSize="15sp"
                 android:textStyle="bold"
@@ -123,7 +126,7 @@
                 android:id="@+id/loginRegisterTv"
                 app:layout_constraintRight_toRightOf="parent"
                 android:text="회원가입 하기"
-                android:onClick="@{vm.RegisterClick}"
+                android:onClick="@{vm.RegisterButton}"
                 app:layout_constraintLeft_toLeftOf="parent"
                 android:layout_marginTop="20dp"
                 android:textColor="@android:color/black"

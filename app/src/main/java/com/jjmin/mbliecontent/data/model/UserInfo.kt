@@ -19,8 +19,8 @@ data class UserInfo (
     val phoneNumber : String,
 
     @SerializedName("is_admin")
-    val is_admin : String,
+    val is_admin : Boolean,
 
     @SerializedName("__v")
-    val __v : String
+    val __v : Int
 )
