@@ -2,13 +2,10 @@ package com.jjmin.mbliecontent.data.model
 
 import com.google.gson.annotations.SerializedName
 
-data class LoginData(
+data class BaseData(
     @SerializedName("success")
     var success: Boolean? = null,
 
     @SerializedName("message")
-    var message: String? = null,
-
-    @SerializedName("user")
-    var user: UserInfo? = null
+    var message: String? = null
 )

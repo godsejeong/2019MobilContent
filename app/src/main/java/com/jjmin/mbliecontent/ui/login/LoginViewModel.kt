@@ -1,30 +1,30 @@
 package com.jjmin.mbliecontent.ui.login
 
-import android.app.Activity
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.util.Log
 import android.view.View
+import androidx.core.app.ActivityCompat.finishAffinity
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.google.gson.Gson
-import com.jjmin.mbliecontent.data.model.LoginData
+import com.jjmin.mbliecontent.data.model.UserInfo
 import com.jjmin.mbliecontent.data.remote.LoginRepository
+import com.jjmin.mbliecontent.ui.main.MainActivity
 import com.jjmin.mbliecontent.ui.register.RegisterActviity
-import com.jjmin.mbliecontent.ui.login.BusinessLoginActivity
-import com.jjmin.mbliecontent.util.ORMUtils
+import com.jjmin.mbliecontent.util.RealmUtils
 import com.jjmin.mbliecontent.util.SingleLiveEvent
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import io.realm.Realm
 import org.jetbrains.anko.toast
+import java.util.*
 
 class LoginViewModel(val useCase: LoginUseCase,val loginRepository: LoginRepository) : ViewModel(){
 
-    val _loginID = MutableLiveData<String>()
-    val loginID : LiveData<String> get() = _loginID
-
-    val _loginPasswd = MutableLiveData<String>()
-    val loginPasswd : LiveData<String> get() = _loginPasswd
+    init {
+        Realm.init(useCase.actviity.applicationContext)
+    }
 
     val _clicklogin = SingleLiveEvent<Any>()
     val clicklogin : LiveData<Any> get() = _clicklogin
@@ -41,23 +41,37 @@ class LoginViewModel(val useCase: LoginUseCase,val loginRepository: LoginReposit
         SetIntnet(RegisterActviity::class.java)
     }
 
-    val BackButton =  View.OnClickListener {
-        useCase.actviity.finish()
-    }
-
     fun LoginClick(){
         _clicklogin.call()
     }
 
-    fun Login(id : String , passwd : String){
+    @SuppressLint("CheckResult")
+    fun Login(id : String, passwd : String){
         Log.e("asdf","$id  $passwd")
 
         loginRepository.Login(id,passwd)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
-                ORMUtils.UserDB().save(it)
-                useCase.actviity.toast("로그인 완료")
+                var mRealm = Realm.getDefaultInstance()
+//                mRealm.beginTransaction()
+//
+//                var userdata : UserInfo = mRealm.createObject(UserInfo::class.java,UUID.randomUUID().toString())
+//                var user = mRealm.copyFromRealm(userdata)
+//
+//                user.apply {
+//                    this.id = it.user?.id!!
+//                    this.passwd = it.user?.passwd!!
+//                    this.companyName = it.user?.companyName!!
+//                    this.phoneNumber = it.user?.phoneNumber!!
+//                    this.companyEmail = it.user?.companyEmail!!
+//                }
+//
+//                mRealm.copyToRealm(user)
+//                mRealm.commitTransaction()
+                SetIntnet(MainActivity::class.java)
+//                useCase.actviity.toast("${RealmUtils.getCompanyName()} 로그인 합니다.")
+                useCase.actviity.finishAffinity()
             }) {
                 Log.e("loginError",it.message)
                 if(it.message?.contains("401")!!){
@@ -67,6 +81,8 @@ class LoginViewModel(val useCase: LoginUseCase,val loginRepository: LoginReposit
                 }
             }
     }
+
+
 
     fun SetIntnet(activity : Class<*>){
         var intnet = Intent(useCase.actviity,activity)

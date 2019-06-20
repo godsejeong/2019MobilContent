@@ -1,26 +1,28 @@
 package com.jjmin.mbliecontent.data.model
 
 import com.google.gson.annotations.SerializedName
+import io.realm.RealmObject
 
-data class UserInfo (
+open class UserInfo (
+    @io.realm.annotations.PrimaryKey
     @SerializedName("id")
-    val id : String,
+    var id : String = "",
 
     @SerializedName("passwd")
-    val passwd : String,
+    var passwd : String = "",
 
     @SerializedName("name")
-    val companyName : String,
+    var companyName : String = "",
 
     @SerializedName("email")
-    val companyEmail : String,
+    var companyEmail : String = "",
 
     @SerializedName("pn")
-    val phoneNumber : String,
+    var phoneNumber : String = "",
 
     @SerializedName("is_admin")
-    val is_admin : Boolean,
+    var is_admin : Boolean = false,
 
     @SerializedName("__v")
-    val __v : Int
-)
+    var __v : Int? = null
+) : RealmObject()

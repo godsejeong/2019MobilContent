@@ -32,7 +32,7 @@ object Modules{
 
     val RegisterModule = module {
         viewModel {(usecase : RegisterUseCase) ->
-            RegisterViewModel(usecase)
+            RegisterViewModel(usecase,get())
         }
     }
 

@@ -6,7 +6,7 @@
 
         <variable
                 name="vm"
-                type="com.jjmin.mbliecontent.ui.login.LoginViewModel"/>
+                type="com.jjmin.mbliecontent.ui.register.RegisterViewModel"/>
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -58,9 +58,9 @@
 
             <com.google.android.material.textfield.TextInputLayout
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toTopOf="@+id/registerPwEt"
+                    app:layout_constraintBottom_toTopOf="@+id/registerPw"
                     android:layout_width="match_parent"
-                    android:id="@+id/registerIdEt"
+                    android:id="@+id/registerId"
                     android:hint="ID"
                     android:theme="@style/LoginTextStyle"
                     android:textColorHint="#00264b"
@@ -69,6 +69,7 @@
                     android:layout_height="wrap_content">
 
                 <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/registerIdEt"
                         android:layout_width="match_parent"
                         android:textSize="15sp"
                         android:layout_height="wrap_content"/>
@@ -76,9 +77,9 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                    app:layout_constraintTop_toBottomOf="@+id/registerIdEt"
+                    app:layout_constraintTop_toBottomOf="@+id/registerId"
                     android:layout_width="match_parent"
-                    android:id="@+id/registerPwEt"
+                    android:id="@+id/registerPw"
                     android:theme="@style/LoginTextStyle"
                     android:hint="PASSWORD"
                     android:layout_marginTop="15dp"
@@ -88,6 +89,7 @@
                     android:layout_height="wrap_content">
 
                 <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/registerPasswordEt"
                         android:layout_width="match_parent"
                         android:textSize="15sp"
                         android:layout_height="wrap_content"/>
@@ -95,7 +97,7 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                    app:layout_constraintTop_toBottomOf="@+id/registerPwEt"
+                    app:layout_constraintTop_toBottomOf="@+id/registerPw"
                     android:layout_width="match_parent"
                     android:id="@+id/registerCompanyName"
                     android:theme="@style/LoginTextStyle"
@@ -107,6 +109,7 @@
                     android:layout_height="wrap_content">
 
                 <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/registerCompanyNameEt"
                         android:layout_width="match_parent"
                         android:textSize="15sp"
                         android:layout_height="wrap_content"/>
@@ -126,6 +129,7 @@
                     android:layout_height="wrap_content">
 
                 <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/registerCompanyPhoneEt"
                         android:layout_width="match_parent"
                         android:textSize="15sp"
                         android:layout_height="wrap_content"/>
@@ -145,6 +149,7 @@
                     android:layout_height="wrap_content">
 
                 <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/registerCompanyEmailEt"
                         android:layout_width="match_parent"
                         android:textSize="15sp"
                         android:layout_height="wrap_content"/>
@@ -163,6 +168,7 @@
                 android:background="@drawable/bg_login_btn"
                 android:backgroundTint="#1864d3"
                 android:text="Sign Up"
+                android:onClick="@{() -> vm.registerClick()}"
                 android:textColor="@android:color/white"
                 android:textSize="15sp"
                 android:textStyle="bold"

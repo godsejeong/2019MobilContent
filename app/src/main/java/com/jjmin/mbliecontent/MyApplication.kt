@@ -5,10 +5,8 @@ import android.content.Context
 import com.jjmin.mbliecontent.di.Modules
 import com.jjmin.mbliecontent.di.NetworkModules
 import com.jjmin.mbliecontent.di.RepositoryModules
-import com.jjmin.mbliecontent.util.ORMUtils
+import com.jjmin.mbliecontent.util.RealmUtils
 import org.koin.core.context.startKoin
-import org.koin.core.module.Module
-import org.koin.dsl.module
 
 class MyApplication : Application() {
 
@@ -26,11 +24,11 @@ class MyApplication : Application() {
                 Modules.MainModule,
                 Modules.RegisterModule,
                 NetworkModules.networkModules,
-                RepositoryModules.loginmodule
+                RepositoryModules.loginmodule,
+                RepositoryModules.registermodule
             )
         }
 
         context = this
-        ORMUtils.setORM(this)
     }
 }
