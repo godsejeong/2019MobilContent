@@ -12,7 +12,6 @@ import org.koin.android.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
 object Modules{
-
     val splashModule = module {
         viewModel {(usecase : SplashUseCase) ->
             SplashViewModel(usecase)
@@ -36,4 +35,6 @@ object Modules{
             RegisterViewModel(usecase)
         }
     }
+
+    val uiModule = listOf(splashModule,MainModule,LoginModule,RegisterModule)
 }
