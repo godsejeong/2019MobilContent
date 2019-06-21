@@ -7,4 +7,9 @@
         android:layout_height="match_parent"
         tools:context=".UserMainActivity">
 
+    <com.jjmin.mbliecontent.ui.sticker.StickerLayout
+            android:id="@+id/sl_sticker_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

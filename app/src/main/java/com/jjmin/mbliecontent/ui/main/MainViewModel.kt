@@ -31,9 +31,9 @@ class MainViewModel(val useCase: MainUseCase,var mainRepository: MainRepository)
         _clickNext.call()
     }
 
-    fun SendServer(list : List<SendShapeData>){
+    fun SendServer(list : List<SendShapeData>,id : String){
         Log.e("serverList", Gson().toJson(list))
-        mainRepository.SendShape(list)
+        mainRepository.SendShape(list,id)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
@@ -43,7 +43,6 @@ class MainViewModel(val useCase: MainUseCase,var mainRepository: MainRepository)
                 useCase.activity.toast("서버가 점검중입니다.")
                 Log.e("MainErrorMessage",it.message)
             }
-
 
     }
 

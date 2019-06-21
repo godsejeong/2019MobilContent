@@ -5,5 +5,5 @@ import com.jjmin.mbliecontent.data.model.SendShapeData
 import io.reactivex.Single
 
 interface MainRepository{
-    fun SendShape(list : List<SendShapeData>) : Single<BaseData>
+    fun SendShape(list : List<SendShapeData>,id : String) : Single<BaseData>
 }

@@ -18,4 +18,12 @@ object RealmUtils{
        return companyName
     }
 
+    fun getCompanyId() : String{
+        var companyId = ""
+        userdata.forEach{
+            companyId = it.id
+        }
+        return companyId
+    }
+
 }

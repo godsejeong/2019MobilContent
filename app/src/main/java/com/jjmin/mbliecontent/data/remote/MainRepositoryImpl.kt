@@ -5,8 +5,8 @@ import com.jjmin.mbliecontent.data.model.SendShapeData
 import io.reactivex.Single
 
 class MainRepositoryImpl(var api: NetworkApi) : MainRepository{
-    override fun SendShape(list: List<SendShapeData>): Single<BaseData> {
-        return api.SendShape(list).map { it }
+    override fun SendShape(list: List<SendShapeData>,id : String): Single<BaseData> {
+        return api.SendShape(list,id).map { it }
     }
 
 }

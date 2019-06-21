@@ -34,6 +34,7 @@ interface NetworkApi {
     @FormUrlEncoded
     @POST("/arrangement/buffet/save")
     fun SendShape(
-        @Field("location") location : List<SendShapeData>
+        @Field("location") location : List<SendShapeData>,
+        @Field("id") id : String
     ): Single<BaseData>
 }

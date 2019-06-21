@@ -9,6 +9,6 @@ data class UserLoginData(
     @SerializedName("message")
     var message: String? = null,
 
-    @SerializedName("food")
-    var location : ArrayList<ArrangementData>? = null
+    @SerializedName("location")
+    var location : Location? = null
 )

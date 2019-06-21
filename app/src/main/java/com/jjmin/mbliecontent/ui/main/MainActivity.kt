@@ -15,17 +15,21 @@ import androidx.lifecycle.Observer
 import com.google.gson.Gson
 import com.jjmin.mbliecontent.R
 import com.jjmin.mbliecontent.data.model.SendShapeData
+import com.jjmin.mbliecontent.data.model.UserInfo
 import com.jjmin.mbliecontent.databinding.ActivityMainBinding
 import com.jjmin.mbliecontent.ui.base.BaseActivity
 import com.jjmin.mbliecontent.ui.sticker.Sticker
+import com.jjmin.mbliecontent.util.RealmUtils
 import com.jjmin.mbliecontent.util.SharedUtils
 import com.skydoves.colorpickerview.ColorPickerDialog
 import com.skydoves.colorpickerview.listeners.ColorEnvelopeListener
+import io.realm.Realm
 import kotlinx.android.synthetic.main.activity_main.*
 import org.koin.android.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 
 class MainActivity : BaseActivity<ActivityMainBinding>() {
+    var realm = Realm.getDefaultInstance()
     override val LayoutId = R.layout.activity_main
     var position = 0
     var sendList = ArrayList<SendShapeData>()
@@ -59,7 +63,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                     SharedUtils.getMeterial(id)))
             }
 
-            viewmodel.SendServer(sendList)
+            viewmodel.SendServer(sendList,RealmUtils.getCompanyId())
         })
     }
 
@@ -123,6 +127,8 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
 
     override fun onDestroy() {
         super.onDestroy()
+        Log.e("onDestroy","destory")
+        realm.delete(UserInfo::class.java)
         SharedUtils.deletefood(viewDataBinding.slStickerLayout.returnSize()!!)
     }
 }
