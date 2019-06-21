@@ -2,7 +2,7 @@ package com.jjmin.mbliecontent.data.remote
 
 import com.jjmin.mbliecontent.data.model.BaseData
 import com.jjmin.mbliecontent.data.model.LoginData
-import com.jjmin.mbliecontent.data.model.SendSpapeData
+import com.jjmin.mbliecontent.data.model.SendShapeData
 import com.jjmin.mbliecontent.data.model.UserLoginData
 import io.reactivex.Single
 import retrofit2.http.Field
@@ -34,6 +34,6 @@ interface NetworkApi {
     @FormUrlEncoded
     @POST("/arrangement/buffet/save")
     fun SendShape(
-        @Field("location") location: List<SendSpapeData>
+        @Field("location") location : List<SendShapeData>
     ): Single<BaseData>
 }

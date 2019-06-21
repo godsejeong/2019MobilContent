@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import com.jjmin.mbliecontent.CustomDrawView
+import com.jjmin.mbliecontent.util.SharedUtils
 
 abstract class BaseActivity<T : ViewDataBinding> : AppCompatActivity(){
     lateinit var viewDataBinding: T
@@ -19,4 +20,6 @@ abstract class BaseActivity<T : ViewDataBinding> : AppCompatActivity(){
         viewDataBinding = DataBindingUtil.setContentView(this,LayoutId)
         viewDataBinding.lifecycleOwner = this
     }
+
+
 }

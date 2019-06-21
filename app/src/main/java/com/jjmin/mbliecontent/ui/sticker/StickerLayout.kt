@@ -1,17 +1,21 @@
 package com.jjmin.mbliecontent.ui.sticker
 
 import android.content.Context
+import android.content.Intent
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
 import android.util.AttributeSet
 import android.util.Log
+import android.view.GestureDetector
 import android.view.MotionEvent
 import android.view.View
+import com.jjmin.mbliecontent.ui.food.FoodInfoActivity
 
 class StickerLayout : View, View.OnTouchListener {
 
     private var mContext: Context? = null
+    var id  : Int? = 0
     var paint: Paint? = null
         get() {
             if (field == null) {
@@ -46,6 +50,9 @@ class StickerLayout : View, View.OnTouchListener {
         setOnTouchListener(this)
     }
 
+    fun returnSize() : Int? {
+        return StickerManager.instance?.stickerList?.size
+    }
 
     /**
      * 添加贴纸
@@ -53,6 +60,8 @@ class StickerLayout : View, View.OnTouchListener {
      * @param sticker
      */
     fun addSticker(sticker: Sticker) {
+        this.id = sticker.id
+        Log.e("idasfgasdfkjhasgdf", id.toString())
         StickerManager.instance?.addSticker(sticker)
         StickerManager.instance?.setFocusSticker(sticker)
         invalidate()
@@ -102,38 +111,40 @@ class StickerLayout : View, View.OnTouchListener {
         focusSticker?.onDraw(canvas, paint)
     }
 
+
+
     override fun onTouch(v: View, event: MotionEvent): Boolean {
-        when (event.action and MotionEvent.ACTION_MASK) {
-            MotionEvent.ACTION_DOWN, MotionEvent.ACTION_POINTER_DOWN -> {
-                //判断是否按到删除按钮 - 삭제 버튼 눌렀늕 ㅣ체크
-                mStick = StickerManager.instance?.getDelButton(event.x, event.y)
-                if (mStick != null) {
-                    removeSticker(mStick!!)
-                    mStick = null
-                }
-                //单指是否触摸到贴纸
-                mStick = StickerManager.instance?.getSticker(event.x, event.y)
-                if (mStick == null) {
-                    if (event.pointerCount == 2) {
-                        Log.e("Log", "안녕")
-                        //处理双指触摸屏幕，第一指没有触摸到贴纸，第二指触摸到贴纸情况
-                        mStick = StickerManager.instance?.getSticker(event.getX(1), event.getY(1))
+
+            when (event.action and MotionEvent.ACTION_MASK) {
+                MotionEvent.ACTION_DOWN, MotionEvent.ACTION_POINTER_DOWN -> {
+                    //判断是否按到删除按钮 - 삭제 버튼 눌렀늕 ㅣ체크
+                    mStick = StickerManager.instance?.getDelButton(event.x, event.y)
+                    if (mStick != null) {
+                        removeSticker(mStick!!)
+                        mStick = null
+                    }
+                    //单指是否触摸到贴纸
+                    mStick = StickerManager.instance?.getSticker(event.x, event.y)
+                    if (mStick == null) {
+                        if (event.pointerCount == 2) {
+                            Log.e("Log", "안녕")
+                            //处理双指触摸屏幕，第一指没有触摸到贴纸，第二指触摸到贴纸情况
+                            mStick = StickerManager.instance?.getSticker(event.getX(1), event.getY(1))
+                        }
+                    }
+                    if (mStick != null) {
+                        StickerManager.instance?.setFocusSticker(mStick!!)
                     }
                 }
-                if (mStick != null) {
-                    Log.e("Log", "잘가")
-                    StickerManager.instance?.setFocusSticker(mStick!!)
+                else -> {
                 }
             }
-            else -> {
+            if (mStick != null) {
+                mStick!!.onTouch(event)
+            } else {
+                StickerManager.instance?.clearAllFocus()
             }
-        }
-        if (mStick != null) {
-            mStick!!.onTouch(event)
-        } else {
-            StickerManager.instance?.clearAllFocus()
-        }
-        invalidate()
+            invalidate()
         return true
     }
 }

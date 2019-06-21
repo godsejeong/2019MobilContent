@@ -3,6 +3,7 @@ package com.jjmin.mbliecontent.ui.main
 import android.app.Activity
 import android.app.AlertDialog
 import android.content.Intent
+import android.content.SharedPreferences
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.drawable.Drawable
@@ -13,19 +14,21 @@ import androidx.core.graphics.drawable.DrawableCompat
 import androidx.lifecycle.Observer
 import com.google.gson.Gson
 import com.jjmin.mbliecontent.R
+import com.jjmin.mbliecontent.data.model.SendShapeData
 import com.jjmin.mbliecontent.databinding.ActivityMainBinding
 import com.jjmin.mbliecontent.ui.base.BaseActivity
 import com.jjmin.mbliecontent.ui.sticker.Sticker
+import com.jjmin.mbliecontent.util.SharedUtils
 import com.skydoves.colorpickerview.ColorPickerDialog
 import com.skydoves.colorpickerview.listeners.ColorEnvelopeListener
 import kotlinx.android.synthetic.main.activity_main.*
 import org.koin.android.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 
-
 class MainActivity : BaseActivity<ActivityMainBinding>() {
     override val LayoutId = R.layout.activity_main
-
+    var position = 0
+    var sendList = ArrayList<SendShapeData>()
     val useCase by lazy { MainUseCase(this) }
     val viewmodel: MainViewModel by viewModel { parametersOf(useCase) }
 
@@ -34,12 +37,29 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
 
         viewDataBinding.vm = viewmodel
         viewDataBinding.mainNextBtn.bringToFront()
-        viewDataBinding.mainNextBtn.setOnClickListener {
-            Log.e("list", Gson().toJson(viewDataBinding.slStickerLayout.returnData()))
-        }
+//        viewDataBinding.mainNextBtn.setOnClickListener {
+//            Log.e("list", Gson().toJson(viewDataBinding.slStickerLayout.returnData()))
+//        }
 
         viewmodel.clickNext.observe(this, Observer {
+            var list = viewDataBinding.slStickerLayout.returnData()
+            sendList.clear()
+            (0 until list.size).forEach{
+                var id = list[it].id!!
+                sendList.add(
+                    SendShapeData(
+                        list[it].x!!,
+                        list[it].y!!,
+                        list[it].id!!,
+                        list[it].num!!,
+                    SharedUtils.getFood(id),
+                    SharedUtils.getCountry(id),
+                    SharedUtils.getxplan(id),
+                    SharedUtils.getAllergy(id),
+                    SharedUtils.getMeterial(id)))
+            }
 
+            viewmodel.SendServer(sendList)
         })
     }
 
@@ -59,15 +79,15 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         if (type == 1) {
             unwrappedDrawable = AppCompatResources.getDrawable(this, R.drawable.shape_rectangle)
         } else if (type == 2) {
-
             unwrappedDrawable = AppCompatResources.getDrawable(this, R.drawable.shape_circle)
         }
 
         var drawable = DrawableCompat.wrap(unwrappedDrawable!!)
         DrawableCompat.setTint(drawable, color)
 
-        var sticker = Sticker(this, getBitmapFromDrawable(drawable!!, 300, 300),color)
+        var sticker = Sticker(this, getBitmapFromDrawable(drawable!!, 300, 300),color,position,type)
         viewDataBinding.slStickerLayout.addSticker(sticker)
+        position++
     }
 
     fun Colordialog(type: Int) {
@@ -99,5 +119,10 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         drawable.setBounds(0, 0, canvas.width, canvas.height)
         drawable.draw(canvas)
         return bmp
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        SharedUtils.deletefood(viewDataBinding.slStickerLayout.returnSize()!!)
     }
 }

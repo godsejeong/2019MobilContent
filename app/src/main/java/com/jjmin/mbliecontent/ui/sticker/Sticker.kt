@@ -1,13 +1,16 @@
 package com.jjmin.mbliecontent.ui.sticker
 
 import android.content.Context
+import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.PointF
 import android.util.Log
+import android.view.GestureDetector
 import android.view.MotionEvent
+import com.jjmin.mbliecontent.ui.food.FoodInfoActivity
 import com.lcw.library.stickerview.BaseSticker
 
-class Sticker(context: Context, bitmap: Bitmap,color : Int) : BaseSticker(context, bitmap) {
+class Sticker(context: Context, bitmap: Bitmap,color : Int,id : Int,num : Int) : BaseSticker(context, bitmap) {
 
     private val mLastSinglePoint = PointF()//记录上一次单指触摸屏幕的点坐标
     private val mLastDistanceVector = PointF()//记录上一次双指之间的向量
@@ -15,7 +18,10 @@ class Sticker(context: Context, bitmap: Bitmap,color : Int) : BaseSticker(contex
     private var mLastDistance: Float = 0.toFloat()//记录上一次双指之间的距离
     var x : Float? = 0f
     var y : Float? = 0f
+    var num : Int = num
     var color = color
+    var id = id
+
     //记录点坐标，减少对象在onTouch中的创建
     private val mFirstPoint = PointF()
     private val mSecondPoint = PointF()
@@ -54,6 +60,14 @@ class Sticker(context: Context, bitmap: Bitmap,color : Int) : BaseSticker(contex
         return Math.toDegrees((currentDegrees - lastDegrees).toDouble()).toFloat()
     }
 
+    var gestureDetector = GestureDetector(object : GestureDetector.SimpleOnGestureListener() {
+        override fun onDoubleTap(e: MotionEvent): Boolean {
+            var intent =  Intent(context, FoodInfoActivity::class.java)
+            intent.putExtra("id",id)
+            context?.startActivity(intent)
+            return true
+        }
+    })
 
     /**
      * 处理触摸事件
@@ -61,7 +75,9 @@ class Sticker(context: Context, bitmap: Bitmap,color : Int) : BaseSticker(contex
      * @param event
      */
     override fun onTouch(event: MotionEvent) {
+        gestureDetector.onTouchEvent(event)
         when (event.action and MotionEvent.ACTION_MASK) {
+
             MotionEvent.ACTION_DOWN -> {
                 //스티커 터치
                 mMode = com.lcw.library.stickerview.Sticker.MODE_SINGLE
@@ -85,8 +101,7 @@ class Sticker(context: Context, bitmap: Bitmap,color : Int) : BaseSticker(contex
                     mLastSinglePoint.set(event.x, event.y)
                     x = event.x
                     y = event.y
-//                    Log.e("asdf","x : ${event.x}  y : ${event.y}")
-//                    val size = StickerManager.instance?.stickerList?.get(1)
+                    Log.e("asdf", "x : ${event.x}  y : ${event.y}")
                 }
                 if (mMode == BaseSticker.MODE_MULTIPLE && event.pointerCount == 2) {
                     //더블 핑거의 점 위치 기록
@@ -107,5 +122,4 @@ class Sticker(context: Context, bitmap: Bitmap,color : Int) : BaseSticker(contex
             MotionEvent.ACTION_UP -> reset()
         }
     }
-
 }

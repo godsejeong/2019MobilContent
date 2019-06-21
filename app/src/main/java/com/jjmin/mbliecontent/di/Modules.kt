@@ -22,7 +22,7 @@ object Modules{
 
     val MainModule = module {
         viewModel {(usecase : MainUseCase) ->
-            MainViewModel(usecase)
+            MainViewModel(usecase,get())
         }
     }
 
