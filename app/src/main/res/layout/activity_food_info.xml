@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable
+                name="vm"
+                type="com.jjmin.mbliecontent.ui.food.FoodInfoViewModel"/>
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:context=".ui.food.FoodInfoActivity">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toTopOf="@+id/foodBtnLayout"
+                android:id="@+id/foodEtLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            <com.google.android.material.textfield.TextInputLayout
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toTopOf="@+id/registerPw"
+                    android:layout_width="match_parent"
+                    android:id="@+id/registerId"
+                    android:hint="음식명"
+                    android:theme="@style/LoginTextStyle"
+                    android:textColorHint="#00264b"
+                    android:layout_marginRight="33dp"
+                    android:layout_marginLeft="33dp"
+                    android:layout_height="wrap_content">
+
+                <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/registerIdEt"
+                        android:layout_width="match_parent"
+                        android:textSize="15sp"
+                        android:layout_height="wrap_content"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                    app:layout_constraintTop_toBottomOf="@+id/registerId"
+                    android:layout_width="match_parent"
+                    android:id="@+id/registerPw"
+                    android:theme="@style/LoginTextStyle"
+                    android:hint="나라"
+                    android:layout_marginTop="15dp"
+                    android:textColorHint="#00264b"
+                    android:layout_marginRight="33dp"
+                    android:layout_marginLeft="33dp"
+                    android:layout_height="wrap_content">
+
+                <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/registerPasswordEt"
+                        android:layout_width="match_parent"
+                        android:textSize="15sp"
+                        android:layout_height="wrap_content"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                    app:layout_constraintTop_toBottomOf="@+id/registerPw"
+                    android:layout_width="match_parent"
+                    android:id="@+id/registerCompanyName"
+                    android:theme="@style/LoginTextStyle"
+                    android:hint="음식설명"
+                    android:layout_marginTop="15dp"
+                    android:textColorHint="#00264b"
+                    android:layout_marginRight="33dp"
+                    android:layout_marginLeft="33dp"
+                    android:layout_height="wrap_content">
+
+                <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/registerCompanyNameEt"
+                        android:layout_width="match_parent"
+                        android:textSize="15sp"
+                        android:layout_height="wrap_content"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                    app:layout_constraintTop_toBottomOf="@+id/registerCompanyName"
+                    android:layout_width="match_parent"
+                    android:id="@+id/registerCompanyPhone"
+                    android:theme="@style/LoginTextStyle"
+                    android:hint="알레르기 유발물질"
+                    android:layout_marginTop="15dp"
+                    android:textColorHint="#00264b"
+                    android:layout_marginRight="33dp"
+                    android:layout_marginLeft="33dp"
+                    android:layout_height="wrap_content">
+
+                <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/registerCompanyPhoneEt"
+                        android:layout_width="match_parent"
+                        android:textSize="15sp"
+                        android:layout_height="wrap_content"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                    app:layout_constraintTop_toBottomOf="@+id/registerCompanyPhone"
+                    android:layout_width="match_parent"
+                    android:id="@+id/registerCompanyEmail"
+                    android:theme="@style/LoginTextStyle"
+                    android:hint="주재료"
+                    android:layout_marginTop="15dp"
+                    android:textColorHint="#00264b"
+                    android:layout_marginRight="33dp"
+                    android:layout_marginLeft="33dp"
+                    android:layout_height="wrap_content">
+
+                <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/registerCompanyEmailEt"
+                        android:layout_width="match_parent"
+                        android:textSize="15sp"
+                        android:layout_height="wrap_content"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/foodBtnLayout"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/foodEtLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+
+            <Button
+                    android:background="@drawable/bg_login_btn"
+                    android:id="@+id/foodOk"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:text="확인"
+                    android:textColor="@android:color/white"
+                    android:textSize="15sp"
+                    android:textStyle="bold"
+                    android:backgroundTint="#1864d3"
+                    android:layout_marginLeft="40dp"
+                    android:layout_marginRight="40dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

@@ -23,11 +23,14 @@ import java.util.*
 class LoginViewModel(val useCase: LoginUseCase,val loginRepository: LoginRepository) : ViewModel(){
 
     init {
-        Realm.init(useCase.actviity.applicationContext)
+        Realm.init(useCase.activity.applicationContext)
     }
 
     val _clicklogin = SingleLiveEvent<Any>()
     val clicklogin : LiveData<Any> get() = _clicklogin
+
+    val _userClicklogin = SingleLiveEvent<Any>()
+    val userClicklogin : LiveData<Any> get() = _userClicklogin
 
     val UserButton = View.OnClickListener {
         SetIntnet(UserLoginActivity::class.java)
@@ -71,21 +74,42 @@ class LoginViewModel(val useCase: LoginUseCase,val loginRepository: LoginReposit
 //                mRealm.commitTransaction()
                 SetIntnet(MainActivity::class.java)
 //                useCase.actviity.toast("${RealmUtils.getCompanyName()} 로그인 합니다.")
-                useCase.actviity.finishAffinity()
+                useCase.activity.finishAffinity()
             }) {
                 Log.e("loginError",it.message)
-                if(it.message?.contains("401")!!){
-                    useCase.actviity.toast("이이디나 비밀번호가 일치하지 않습니다.")
-                }else{
-                    useCase.actviity.toast("서버를 점검중입니다. 잠시후에 시도해주세요")
-                }
+                if(it.message?.contains("401")!!)
+                    useCase.activity.toast("이이디나 비밀번호가 일치하지 않습니다.")
+                else
+                    useCase.activity.toast("서버를 점검중입니다. 잠시후에 시도해주세요")
+
             }
     }
 
 
+    fun UserLoginClick(){
+        _userClicklogin.call()
+    }
+
+    @SuppressLint("CheckResult")
+    fun UserLogin(id : String){
+        loginRepository.UserLogin(id)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({
+                SetIntnet(UserLoginActivity::class.java)
+                useCase.activity.finishAffinity()
+            })
+            {
+                Log.e("userLoginError",it.message)
+                if(it.message?.contains("401")!!)
+                    useCase.activity.toast("존재하지 않는 아이디 입니다.")
+                else
+                    useCase.activity.toast("서버를 점검중입니다. 잠시후에 시도해주세요")
+            }
+    }
 
     fun SetIntnet(activity : Class<*>){
-        var intnet = Intent(useCase.actviity,activity)
-        useCase.actviity.startActivity(intnet)
+        var intnet = Intent(useCase.activity,activity)
+        useCase.activity.startActivity(intnet)
     }
 }

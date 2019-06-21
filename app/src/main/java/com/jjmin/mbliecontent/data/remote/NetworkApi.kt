@@ -2,8 +2,12 @@ package com.jjmin.mbliecontent.data.remote
 
 import com.jjmin.mbliecontent.data.model.BaseData
 import com.jjmin.mbliecontent.data.model.LoginData
+import com.jjmin.mbliecontent.data.model.SendSpapeData
+import com.jjmin.mbliecontent.data.model.UserLoginData
 import io.reactivex.Single
-import retrofit2.http.*
+import retrofit2.http.Field
+import retrofit2.http.FormUrlEncoded
+import retrofit2.http.POST
 
 interface NetworkApi {
 
@@ -19,5 +23,17 @@ interface NetworkApi {
         @Field("email") email: String,
         @Field("pn") pn: String,
         @Field("name") name: String
+    ): Single<BaseData>
+
+    @FormUrlEncoded
+    @POST("/arrangement/host")
+    fun UserLogin(
+        @Field("id") id: String
+    ): Single<UserLoginData>
+
+    @FormUrlEncoded
+    @POST("/arrangement/buffet/save")
+    fun SendShape(
+        @Field("location") location: List<SendSpapeData>
     ): Single<BaseData>
 }

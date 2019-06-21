@@ -1,5 +1,7 @@
 package com.jjmin.mbliecontent.di
 
+import com.jjmin.mbliecontent.ui.food.FoodInfoUseCase
+import com.jjmin.mbliecontent.ui.food.FoodInfoViewModel
 import com.jjmin.mbliecontent.ui.login.LoginUseCase
 import com.jjmin.mbliecontent.ui.login.LoginViewModel
 import com.jjmin.mbliecontent.ui.main.MainUseCase
@@ -33,6 +35,12 @@ object Modules{
     val RegisterModule = module {
         viewModel {(usecase : RegisterUseCase) ->
             RegisterViewModel(usecase,get())
+        }
+    }
+
+    val foodModule = module {
+        viewModel { (usecase : FoodInfoUseCase)->
+            FoodInfoViewModel(usecase)
         }
     }
 

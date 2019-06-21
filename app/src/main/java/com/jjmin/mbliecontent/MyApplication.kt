@@ -23,9 +23,11 @@ class MyApplication : Application() {
                 Modules.splashModule,
                 Modules.MainModule,
                 Modules.RegisterModule,
+                Modules.foodModule,
                 NetworkModules.networkModules,
                 RepositoryModules.loginmodule,
-                RepositoryModules.registermodule
+                RepositoryModules.registermodule,
+                RepositoryModules.shapemodule
             )
         }
 

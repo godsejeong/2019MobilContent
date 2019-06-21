@@ -1,0 +1,14 @@
+package com.jjmin.mbliecontent
+
+import android.app.Activity
+import androidx.appcompat.app.AppCompatActivity
+import android.os.Bundle
+import android.view.Window
+
+class UserMainActivity : AppCompatActivity() {
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_user_main)
+    }
+}
