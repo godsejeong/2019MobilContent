@@ -20,6 +20,9 @@ open class UserInfo (
     @SerializedName("pn")
     var phoneNumber : String = "",
 
+    @SerializedName("_id")
+    var token : String = "",
+
     @SerializedName("is_admin")
     var is_admin : Boolean = false,
 

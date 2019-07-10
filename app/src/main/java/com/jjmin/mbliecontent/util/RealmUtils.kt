@@ -18,6 +18,14 @@ object RealmUtils{
        return companyName
     }
 
+    fun getToken() : String{
+        var token = ""
+        userdata.forEach {
+            token = it.token
+        }
+        return token
+    }
+
     fun getCompanyId() : String{
         var companyId = ""
         userdata.forEach{
@@ -25,5 +33,4 @@ object RealmUtils{
         }
         return companyId
     }
-
 }

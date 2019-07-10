@@ -22,12 +22,11 @@ class Sticker(context: Context, bitmap: Bitmap,color : Int,id : Int,num : Int) :
     var color = color
     var id = id
 
-    //记录点坐标，减少对象在onTouch中的创建
     private val mFirstPoint = PointF()
     private val mSecondPoint = PointF()
 
     /**
-     * 重置状态
+     * 초기화
      */
     fun reset() {
         mLastSinglePoint.set(0f, 0f)
@@ -38,7 +37,6 @@ class Sticker(context: Context, bitmap: Bitmap,color : Int,id : Int,num : Int) :
     }
 
     /**
-     * 计算两点之间的距离
      */
     fun calculateDistance(firstPointF: PointF, secondPointF: PointF): Float {
         val x = firstPointF.x - secondPointF.x
@@ -48,7 +46,6 @@ class Sticker(context: Context, bitmap: Bitmap,color : Int,id : Int,num : Int) :
 
 
     /**
-     * 计算旋转角度
      *
      * @param lastVector
      * @param currentVector
@@ -70,7 +67,6 @@ class Sticker(context: Context, bitmap: Bitmap,color : Int,id : Int,num : Int) :
     })
 
     /**
-     * 处理触摸事件
      *
      * @param event
      */

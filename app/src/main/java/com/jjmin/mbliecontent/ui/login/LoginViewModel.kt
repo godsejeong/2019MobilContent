@@ -15,6 +15,7 @@ import com.jjmin.mbliecontent.util.RealmUtils
 import com.jjmin.mbliecontent.util.SingleLiveEvent
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import io.reactivex.subjects.PublishSubject
 import io.realm.Realm
 import org.jetbrains.anko.toast
 import java.util.*
@@ -24,6 +25,7 @@ class LoginViewModel(val useCase: LoginUseCase,val loginRepository: LoginReposit
     init {
         Realm.init(useCase.activity.applicationContext)
     }
+
 
     val _clicklogin = SingleLiveEvent<Any>()
     val clicklogin : LiveData<Any> get() = _clicklogin
@@ -50,7 +52,6 @@ class LoginViewModel(val useCase: LoginUseCase,val loginRepository: LoginReposit
     @SuppressLint("CheckResult")
     fun Login(id : String, passwd : String){
         Log.e("asdf","$id  $passwd")
-
         loginRepository.Login(id,passwd)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
@@ -58,36 +59,28 @@ class LoginViewModel(val useCase: LoginUseCase,val loginRepository: LoginReposit
                 var mRealm = Realm.getDefaultInstance()
                 mRealm.beginTransaction()
                 Log.e("asdasdf", it.success.toString())
+
                 var userdata : UserInfo = mRealm.createObject(UserInfo::class.java,UUID.randomUUID().toString())
                 var user = mRealm.copyFromRealm(userdata)
 
-//                useCase.activity.toast("로그인 완료 되었습니다.")
                 user.apply {
                     this.id = it.user?.id!!
                     this.passwd = it.user?.passwd!!
                     this.companyName = it.user?.companyName!!
                     this.phoneNumber = it.user?.phoneNumber!!
                     this.companyEmail = it.user?.companyEmail!!
+                    this.token = it.user?.token!!
                 }
-
-//                try {
-//                mRealm.copyToRealm(user)
                 mRealm.commitTransaction()
                 useCase.activity.toast("${RealmUtils.getCompanyName()} 로그인 합니다.")
                 useCase.activity.finishAffinity()
                 SetIntnet(MainActivity::class.java)
-
-//                }catch (e : RealmPrimaryKeyConstraintException){
-//                    SetIntnet(MainActivity::class.java)
-//                }
-
             }) {
                 Log.e("loginError",it.message)
                 if(it.message?.contains("401")!!)
                     useCase.activity.toast("이이디나 비밀번호가 일치하지 않습니다.")
                 else
                     useCase.activity.toast("서버를 점검중입니다. 잠시후에 시도해주세요")
-
             }
     }
 

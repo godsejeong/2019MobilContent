@@ -41,9 +41,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
 
         viewDataBinding.vm = viewmodel
         viewDataBinding.mainNextBtn.bringToFront()
-//        viewDataBinding.mainNextBtn.setOnClickListener {
-//            Log.e("list", Gson().toJson(viewDataBinding.slStickerLayout.returnData()))
-//        }
 
         viewmodel.clickNext.observe(this, Observer {
             var list = viewDataBinding.slStickerLayout.returnData()
@@ -128,7 +125,14 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
     override fun onDestroy() {
         super.onDestroy()
         Log.e("onDestroy","destory")
-        realm.delete(UserInfo::class.java)
+        userDelete()
         SharedUtils.deletefood(viewDataBinding.slStickerLayout.returnSize()!!)
+    }
+
+    fun userDelete() {
+        var userinfo = realm.where(UserInfo::class.java).findAll()
+        realm.executeTransaction{
+            userinfo.deleteAllFromRealm()
+        }
     }
 }

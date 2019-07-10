@@ -22,6 +22,4 @@ object RepositoryModules{
             MainRepositoryImpl(get()) as MainRepository
         }
     }
-
-    val repositotyModule = listOf(loginmodule)
 }
