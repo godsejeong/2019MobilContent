@@ -3,7 +3,7 @@ package com.jjmin.mbliecontent.data.remote
 import com.jjmin.mbliecontent.data.model.BaseData
 import com.jjmin.mbliecontent.data.model.LoginData
 import com.jjmin.mbliecontent.data.model.SendShapeData
-import com.jjmin.mbliecontent.data.model.UserLoginData
+import com.jjmin.mbliecontent.data.model.DeploymentData
 import io.reactivex.Single
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
@@ -27,14 +27,14 @@ interface NetworkApi {
 
     @FormUrlEncoded
     @POST("/arrangement/host")
-    fun UserLogin(
+    fun ShapeDeploment(
         @Field("id") id: String
-    ): Single<UserLoginData>
+    ): Single<DeploymentData>
 
     @FormUrlEncoded
     @POST("/arrangement/buffet/save")
     fun SendShape(
         @Field("location") location : List<SendShapeData>,
-        @Field("id") id : String
+        @Field("token") id : String
     ): Single<BaseData>
 }

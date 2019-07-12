@@ -9,6 +9,7 @@ import com.google.gson.Gson
 import com.jjmin.mbliecontent.ShapeDialog
 import com.jjmin.mbliecontent.data.model.SendShapeData
 import com.jjmin.mbliecontent.data.remote.MainRepository
+import com.jjmin.mbliecontent.util.RealmUtils
 import com.jjmin.mbliecontent.util.SingleLiveEvent
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -23,17 +24,13 @@ class MainViewModel(val useCase: MainUseCase,var mainRepository: MainRepository)
         SetIntnet(ShapeDialog::class.java,100)
     }
 
-//    val TvClick = View.OnClickListener {
-//
-//    }
-
     fun NextClick(){
         _clickNext.call()
     }
 
-    fun SendServer(list : List<SendShapeData>,id : String){
+    fun SendServer(list : List<SendShapeData>){
         Log.e("serverList", Gson().toJson(list))
-        mainRepository.SendShape(list,id)
+        mainRepository.SendShape(list,RealmUtils.getToken())
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
@@ -43,13 +40,10 @@ class MainViewModel(val useCase: MainUseCase,var mainRepository: MainRepository)
                 useCase.activity.toast("서버가 점검중입니다.")
                 Log.e("MainErrorMessage",it.message)
             }
-
     }
 
     fun SetIntnet(activity : Class<*>,requestCode : Int){
         var intnet = Intent(useCase.activity,activity)
         useCase.activity.startActivityForResult(intnet,requestCode)
     }
-
-
 }

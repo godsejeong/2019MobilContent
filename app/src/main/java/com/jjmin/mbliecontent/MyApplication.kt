@@ -8,6 +8,7 @@ import com.jjmin.mbliecontent.di.RepositoryModules
 import com.jjmin.mbliecontent.util.RealmUtils
 import com.jjmin.mbliecontent.util.SharedUtils
 import org.koin.core.context.startKoin
+import org.koin.core.module.Module
 
 class MyApplication : Application() {
 
@@ -19,17 +20,20 @@ class MyApplication : Application() {
 
         startKoin {
             this@MyApplication
+
             modules(
                 Modules.LoginModule,
-                Modules.splashModule,
+                Modules.SplashModule,
                 Modules.MainModule,
                 Modules.RegisterModule,
-                Modules.foodModule,
+                Modules.FoodModule,
+                Modules.DeploymentModule,
                 NetworkModules.networkModules,
-                RepositoryModules.loginmodule,
-                RepositoryModules.registermodule,
-                RepositoryModules.shapemodule
-            )
+                RepositoryModules.LoginModule,
+                RepositoryModules.RegisterModule,
+                RepositoryModules.MainModule,
+                RepositoryModules.ShapeDeploymentmodule
+                )
         }
 
         context = this

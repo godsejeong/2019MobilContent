@@ -1,5 +1,7 @@
 package com.jjmin.mbliecontent.di
 
+import com.jjmin.mbliecontent.ui.deployment.DeploymentUseCase
+import com.jjmin.mbliecontent.ui.deployment.DeploymentViewmodel
 import com.jjmin.mbliecontent.ui.food.FoodInfoUseCase
 import com.jjmin.mbliecontent.ui.food.FoodInfoViewModel
 import com.jjmin.mbliecontent.ui.login.LoginUseCase
@@ -14,7 +16,7 @@ import org.koin.android.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
 object Modules{
-    val splashModule = module {
+    val SplashModule = module {
         viewModel {(usecase : SplashUseCase) ->
             SplashViewModel(usecase)
         }
@@ -38,11 +40,17 @@ object Modules{
         }
     }
 
-    val foodModule = module {
+    val FoodModule = module {
         viewModel { (usecase : FoodInfoUseCase)->
             FoodInfoViewModel(usecase)
         }
     }
 
-    val uiModule = listOf(splashModule,MainModule,LoginModule,RegisterModule)
+    val DeploymentModule = module {
+        viewModel { (usecase : DeploymentUseCase)->
+            DeploymentViewmodel(usecase,get())
+        }
+    }
+
+//    val uiModule = listOf(SplashModule,MainModule,LoginModule,RegisterModule)
 }

@@ -60,7 +60,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                     SharedUtils.getMeterial(id)))
             }
 
-            viewmodel.SendServer(sendList,RealmUtils.getCompanyId())
+            viewmodel.SendServer(sendList)
         })
     }
 

@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModel
 import com.jjmin.mbliecontent.UserMainActivity
 import com.jjmin.mbliecontent.data.model.UserInfo
 import com.jjmin.mbliecontent.data.remote.LoginRepository
+import com.jjmin.mbliecontent.ui.deployment.ShapeDeploymentActivity
 import com.jjmin.mbliecontent.ui.main.MainActivity
 import com.jjmin.mbliecontent.ui.register.RegisterActviity
 import com.jjmin.mbliecontent.util.RealmUtils
@@ -74,7 +75,7 @@ class LoginViewModel(val useCase: LoginUseCase,val loginRepository: LoginReposit
                 mRealm.commitTransaction()
                 useCase.activity.toast("${RealmUtils.getCompanyName()} 로그인 합니다.")
                 useCase.activity.finishAffinity()
-                SetIntnet(MainActivity::class.java)
+                SetIntnet(ShapeDeploymentActivity::class.java)
             }) {
                 Log.e("loginError",it.message)
                 if(it.message?.contains("401")!!)
