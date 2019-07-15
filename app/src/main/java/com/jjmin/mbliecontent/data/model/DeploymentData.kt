@@ -1,6 +1,7 @@
 package com.jjmin.mbliecontent.data.model
 
 import com.google.gson.annotations.SerializedName
+import org.json.JSONArray
 
 data class DeploymentData(
     @SerializedName("success")
@@ -9,6 +10,6 @@ data class DeploymentData(
     @SerializedName("message")
     var message: String? = null,
 
-    @SerializedName("location")
-    var location : Location? = null
+    @SerializedName("locates")
+    var locates : String? = null
 )

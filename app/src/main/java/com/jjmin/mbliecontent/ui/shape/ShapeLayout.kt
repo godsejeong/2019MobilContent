@@ -1,4 +1,4 @@
-package com.jjmin.mbliecontent.ui.sticker
+package com.jjmin.mbliecontent.ui.shape
 
 import android.content.Context
 import android.content.Intent
@@ -12,7 +12,7 @@ import android.view.MotionEvent
 import android.view.View
 import com.jjmin.mbliecontent.ui.food.FoodInfoActivity
 
-class StickerLayout : View, View.OnTouchListener {
+class ShapeLayout : View, View.OnTouchListener {
 
     private var mContext: Context? = null
     var id  : Int? = 0
@@ -27,7 +27,7 @@ class StickerLayout : View, View.OnTouchListener {
         }
 
     //记录当前操作的贴纸对象
-    private var mStick: Sticker? = null
+    private var mStick: Shape? = null
 
     constructor(context: Context) : super(context) {
         init(context)
@@ -51,7 +51,7 @@ class StickerLayout : View, View.OnTouchListener {
     }
 
     fun returnSize() : Int? {
-        return StickerManager.instance?.stickerList?.size
+        return ShapeManager.instance?.stickerList?.size
     }
 
     /**
@@ -59,11 +59,11 @@ class StickerLayout : View, View.OnTouchListener {
      *
      * @param sticker
      */
-    fun addSticker(sticker: Sticker) {
-        this.id = sticker.id
+    fun addShare(shape : Shape) {
+        this.id = shape.id
         Log.e("idasfgasdfkjhasgdf", id.toString())
-        StickerManager.instance?.addSticker(sticker)
-        StickerManager.instance?.setFocusSticker(sticker)
+        ShapeManager.instance?.addSticker(shape)
+        ShapeManager.instance?.setFocusSticker(shape)
         invalidate()
     }
 
@@ -72,15 +72,15 @@ class StickerLayout : View, View.OnTouchListener {
      *
      * @param sticker
      */
-    fun removeSticker(sticker: Sticker) {
-        if (sticker.isFocus) {
-            StickerManager.instance?.removeSticker(sticker)
+    fun removeSticker(shape: Shape) {
+        if (shape.isFocus) {
+            ShapeManager.instance?.removeSticker(shape)
             invalidate()
         }
     }
 
-    fun returnData() : List<Sticker>{
-        var list = StickerManager.instance?.stickerList
+    fun returnData() : List<Shape>{
+        var list = ShapeManager.instance?.stickerList
         (0 until list?.size!!).forEach{
             Log.e("asdf","x : ${list[it].x}  y : ${list[it].y} color : ${list[it].color}")
         }
@@ -90,16 +90,16 @@ class StickerLayout : View, View.OnTouchListener {
     /**
      * 清空贴纸
      */
-    fun removeAllSticker() {
-        StickerManager.instance?.removeAllSticker()
+    fun removeAllShape() {
+        ShapeManager.instance?.removeAllSticker()
         invalidate()
     }
 
 
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
-        val stickerList = StickerManager.instance?.stickerList
-        var focusSticker: Sticker? = null
+        val stickerList = ShapeManager.instance?.stickerList
+        var focusSticker: Shape? = null
         for (i in stickerList?.indices!!) {
             val sticker = stickerList[i]
             if (sticker.isFocus) {
@@ -115,36 +115,6 @@ class StickerLayout : View, View.OnTouchListener {
 
     override fun onTouch(v: View, event: MotionEvent): Boolean {
 
-            when (event.action and MotionEvent.ACTION_MASK) {
-                MotionEvent.ACTION_DOWN, MotionEvent.ACTION_POINTER_DOWN -> {
-                    //判断是否按到删除按钮 - 삭제 버튼 눌렀늕 ㅣ체크
-                    mStick = StickerManager.instance?.getDelButton(event.x, event.y)
-                    if (mStick != null) {
-                        removeSticker(mStick!!)
-                        mStick = null
-                    }
-                    //单指是否触摸到贴纸
-                    mStick = StickerManager.instance?.getSticker(event.x, event.y)
-                    if (mStick == null) {
-                        if (event.pointerCount == 2) {
-                            Log.e("Log", "안녕")
-                            //处理双指触摸屏幕，第一指没有触摸到贴纸，第二指触摸到贴纸情况
-                            mStick = StickerManager.instance?.getSticker(event.getX(1), event.getY(1))
-                        }
-                    }
-                    if (mStick != null) {
-                        StickerManager.instance?.setFocusSticker(mStick!!)
-                    }
-                }
-                else -> {
-                }
-            }
-            if (mStick != null) {
-                mStick!!.onTouch(event)
-            } else {
-                StickerManager.instance?.clearAllFocus()
-            }
-            invalidate()
         return true
     }
 }

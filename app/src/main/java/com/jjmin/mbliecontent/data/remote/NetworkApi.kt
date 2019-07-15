@@ -1,12 +1,15 @@
 package com.jjmin.mbliecontent.data.remote
 
+import com.google.gson.JsonArray
 import com.jjmin.mbliecontent.data.model.BaseData
 import com.jjmin.mbliecontent.data.model.LoginData
 import com.jjmin.mbliecontent.data.model.SendShapeData
 import com.jjmin.mbliecontent.data.model.DeploymentData
 import io.reactivex.Single
+import org.json.JSONArray
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
+import retrofit2.http.Headers
 import retrofit2.http.POST
 
 interface NetworkApi {
@@ -34,7 +37,7 @@ interface NetworkApi {
     @FormUrlEncoded
     @POST("/arrangement/buffet/save")
     fun SendShape(
-        @Field("location") location : List<SendShapeData>,
-        @Field("token") id : String
+        @Field("location") location : String,
+        @Field("id") id : String
     ): Single<BaseData>
 }

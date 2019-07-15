@@ -10,23 +10,16 @@ import com.jjmin.mbliecontent.UserMainActivity
 import com.jjmin.mbliecontent.data.model.UserInfo
 import com.jjmin.mbliecontent.data.remote.LoginRepository
 import com.jjmin.mbliecontent.ui.deployment.ShapeDeploymentActivity
-import com.jjmin.mbliecontent.ui.main.MainActivity
 import com.jjmin.mbliecontent.ui.register.RegisterActviity
 import com.jjmin.mbliecontent.util.RealmUtils
 import com.jjmin.mbliecontent.util.SingleLiveEvent
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
-import io.reactivex.subjects.PublishSubject
 import io.realm.Realm
 import org.jetbrains.anko.toast
 import java.util.*
 
 class LoginViewModel(val useCase: LoginUseCase,val loginRepository: LoginRepository) : ViewModel(){
-
-    init {
-        Realm.init(useCase.activity.applicationContext)
-    }
-
 
     val _clicklogin = SingleLiveEvent<Any>()
     val clicklogin : LiveData<Any> get() = _clicklogin
@@ -41,6 +34,9 @@ class LoginViewModel(val useCase: LoginUseCase,val loginRepository: LoginReposit
     val BusinessButton = View.OnClickListener {
         SetIntnet(BusinessLoginActivity::class.java)
     }
+
+
+
 
     val RegisterButton = View.OnClickListener {
         SetIntnet(RegisterActviity::class.java)
@@ -72,6 +68,7 @@ class LoginViewModel(val useCase: LoginUseCase,val loginRepository: LoginReposit
                     this.companyEmail = it.user?.companyEmail!!
                     this.token = it.user?.token!!
                 }
+                mRealm.copyToRealm(user)
                 mRealm.commitTransaction()
                 useCase.activity.toast("${RealmUtils.getCompanyName()} 로그인 합니다.")
                 useCase.activity.finishAffinity()

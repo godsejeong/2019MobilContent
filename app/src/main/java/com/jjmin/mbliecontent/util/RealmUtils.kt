@@ -23,6 +23,8 @@ object RealmUtils{
         userdata.forEach {
             token = it.token
         }
+
+
         return token
     }
 

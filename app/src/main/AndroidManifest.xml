@@ -41,5 +41,4 @@
         <activity android:name=".ui.main.MainActivity">
         </activity>
     </application>
-
 </manifest>

@@ -19,11 +19,11 @@ class UserMainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_user_main)
         var unwrappedDrawable = AppCompatResources.getDrawable(this, R.drawable.shape_rectangle)
         var drawable = DrawableCompat.wrap(unwrappedDrawable!!)
-        var sticker = Sticker(this,getBitmapFromDrawable(drawable!!, 300, 300),-65525,10,2)
-        sl_sticker_layout.addSticker(sticker)
-
-        var sticker1 = Sticker(this,getBitmapFromDrawable(drawable!!, 500, 500),-65525,10,2)
-        sl_sticker_layout.addSticker(sticker1)
+//        var sticker = Sticker(this,getBitmapFromDrawable(drawable!!, 300, 300),-65525,10,2,false,300f,200f)
+//        sl_sticker_layout.addSticker(sticker)
+//
+//        var sticker1 = Sticker(this,getBitmapFromDrawable(drawable!!, 500, 500),-65525,10,2)
+//        sl_sticker_layout.addSticker(sticker1)
     }
 
     private fun getBitmapFromDrawable(drawable: Drawable, width: Int, height: Int): Bitmap {

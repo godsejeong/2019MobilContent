@@ -8,14 +8,14 @@ import android.util.Log
 import android.view.GestureDetector
 import android.view.MotionEvent
 import com.jjmin.mbliecontent.ui.food.FoodInfoActivity
-import com.lcw.library.stickerview.BaseSticker
 
-class Sticker(context: Context, bitmap: Bitmap,color : Int,id : Int,num : Int) : BaseSticker(context, bitmap) {
+class Sticker(context: Context, bitmap: Bitmap, color: Int, id: Int, num: Int) :
+    BaseSticker(context, bitmap) {
 
-    private val mLastSinglePoint = PointF()//记录上一次单指触摸屏幕的点坐标
-    private val mLastDistanceVector = PointF()//记录上一次双指之间的向量
-    private val mDistanceVector = PointF()//记录当前双指之间的向量
-    private var mLastDistance: Float = 0.toFloat()//记录上一次双指之间的距离
+    private val mLastSinglePoint = PointF()//스크린의 커튼을 가리키는 점
+    private val mLastDistanceVector = PointF()//백테계산
+    private val mDistanceVector = PointF()//두손가락 사이의 백터
+    private var mLastDistance: Float = 0.toFloat()//손가락 사이의 길이
     var x : Float? = 0f
     var y : Float? = 0f
     var num : Int = num
@@ -76,13 +76,13 @@ class Sticker(context: Context, bitmap: Bitmap,color : Int,id : Int,num : Int) :
 
             MotionEvent.ACTION_DOWN -> {
                 //스티커 터치
-                mMode = com.lcw.library.stickerview.Sticker.MODE_SINGLE
+                mMode = MODE_SINGLE
                 //누른 위치 기록
                 mLastSinglePoint.set(event.x, event.y)
             }
             MotionEvent.ACTION_POINTER_DOWN -> if (event.pointerCount == 2) {
 
-                mMode = com.lcw.library.stickerview.Sticker.MODE_MULTIPLE
+                mMode = MODE_MULTIPLE
                 //더블 클릭 위치 기록
                 mFirstPoint.set(event.getX(0), event.getY(0))
                 mSecondPoint.set(event.getX(1), event.getY(1))
@@ -117,5 +117,6 @@ class Sticker(context: Context, bitmap: Bitmap,color : Int,id : Int,num : Int) :
             }
             MotionEvent.ACTION_UP -> reset()
         }
+
     }
 }

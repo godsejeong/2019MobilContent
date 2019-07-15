@@ -1,17 +1,17 @@
-package com.jjmin.mbliecontent.ui.sticker
+package com.jjmin.mbliecontent.ui.shape
 
 import android.graphics.Matrix
 import java.util.ArrayList
 
 
-class StickerManager {
+class ShapeManager {
 
-    private val mStickerList = ArrayList<Sticker>()
+    private val mStickerList = ArrayList<Shape>()
 
-    val stickerList: List<Sticker>
+    val stickerList: List<Shape>
         get() = mStickerList
 
-    fun addSticker(sticker: Sticker) {
+    fun addSticker(sticker: Shape) {
         mStickerList.add(sticker)
     }
 
@@ -20,12 +20,13 @@ class StickerManager {
      *
      * @param sticker
      */
-    fun removeSticker(sticker: Sticker) {
+    fun removeSticker(sticker: Shape) {
         val bitmap = sticker.bitmap
         if (bitmap != null && bitmap.isRecycled) {
             bitmap.recycle()
         }
         mStickerList.remove(sticker)
+
     }
 
     /**
@@ -46,7 +47,7 @@ class StickerManager {
      *
      * @param focusSticker
      */
-    fun setFocusSticker(focusSticker: Sticker) {
+    fun setFocusSticker(focusSticker: Shape) {
         for (i in mStickerList.indices) {
             val sticker = mStickerList[i]
             if (sticker == focusSticker) {
@@ -74,7 +75,7 @@ class StickerManager {
      * @param y
      * @return
      */
-    fun getSticker(x: Float, y: Float): Sticker? {
+    fun getSticker(x: Float, y: Float): Shape? {
 
         val dstPoints = FloatArray(2)
         val srcPoints = floatArrayOf(x, y)
@@ -98,36 +99,36 @@ class StickerManager {
      * @param y
      * @return
      */
-    fun getDelButton(x: Float, y: Float): Sticker? {
-
-        val dstPoints = FloatArray(2)
-        val srcPoints = floatArrayOf(x, y)
-
-        for (i in mStickerList.indices.reversed()) {
-            val sticker = mStickerList[i]
-            val matrix = Matrix()
-            sticker.matrix.invert(matrix)
-            matrix.mapPoints(dstPoints, srcPoints)
-            if (sticker.delBitmapBound.contains(dstPoints[0], dstPoints[1])) {
-                return sticker
-            }
-        }
-        return null
-
-    }
+//    fun getDelButton(x: Float, y: Float): Shape? {
+//
+//        val dstPoints = FloatArray(2)
+//        val srcPoints = floatArrayOf(x, y)
+//
+//        for (i in mStickerList.indices.reversed()) {
+//            val shape = mStickerList[i]
+//            val matrix = Matrix()
+//            shape.matrix.invert(matrix)
+//            matrix.mapPoints(dstPoints, srcPoints)
+//            if (shape.delBitmapBound.contains(dstPoints[0], dstPoints[1])) {
+//                return sticker
+//            }
+//        }
+//        return null
+//
+//    }
 
     companion object {
 
         @Volatile
-        private var mInstance: StickerManager? = null
+        private var mInstance: ShapeManager? = null
 
-        val instance: StickerManager?
+        val instance: ShapeManager?
             get() {
                 if (mInstance == null) {
-                    synchronized(StickerManager::class.java) {
+                    synchronized(ShapeManager::class.java) {
                         if (mInstance == null) {
                             mInstance =
-                                StickerManager()
+                                ShapeManager()
                         }
                     }
                 }

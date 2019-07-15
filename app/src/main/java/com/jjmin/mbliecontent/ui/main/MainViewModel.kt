@@ -6,14 +6,17 @@ import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import com.google.gson.Gson
+import com.google.gson.JsonArray
 import com.jjmin.mbliecontent.ShapeDialog
 import com.jjmin.mbliecontent.data.model.SendShapeData
+import com.jjmin.mbliecontent.data.model.UserInfo
 import com.jjmin.mbliecontent.data.remote.MainRepository
 import com.jjmin.mbliecontent.util.RealmUtils
 import com.jjmin.mbliecontent.util.SingleLiveEvent
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import org.jetbrains.anko.toast
+import org.json.JSONArray
 
 class MainViewModel(val useCase: MainUseCase,var mainRepository: MainRepository) : ViewModel(){
 
@@ -24,13 +27,27 @@ class MainViewModel(val useCase: MainUseCase,var mainRepository: MainRepository)
         SetIntnet(ShapeDialog::class.java,100)
     }
 
+    val logout = View.OnLongClickListener {
+        userDelete()
+        useCase.activity.toast("로그아웃이 완료되었습니다.")
+        useCase.activity.finish()
+        return@OnLongClickListener true
+    }
+    fun userDelete() {
+        var userinfo = RealmUtils.realm.where(UserInfo::class.java).findAll()
+        RealmUtils.realm.executeTransaction {
+            userinfo.deleteAllFromRealm()
+        }
+    }
+
     fun NextClick(){
         _clickNext.call()
     }
 
-    fun SendServer(list : List<SendShapeData>){
-        Log.e("serverList", Gson().toJson(list))
-        mainRepository.SendShape(list,RealmUtils.getToken())
+    fun SendServer(array : String){
+        Log.e("token",RealmUtils.getToken())
+        Log.e("jsonArray",Gson().toJson(array))
+        mainRepository.SendShape(array,RealmUtils.getToken())
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({

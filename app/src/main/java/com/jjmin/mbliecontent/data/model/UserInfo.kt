@@ -2,9 +2,10 @@ package com.jjmin.mbliecontent.data.model
 
 import com.google.gson.annotations.SerializedName
 import io.realm.RealmObject
+import io.realm.annotations.PrimaryKey
 
 open class UserInfo (
-    @io.realm.annotations.PrimaryKey
+    @PrimaryKey
     @SerializedName("id")
     var id : String = "",
 
