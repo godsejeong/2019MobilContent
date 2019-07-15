@@ -19,6 +19,7 @@ import com.jjmin.mbliecontent.data.model.SendShapeData
 import com.jjmin.mbliecontent.data.model.UserInfo
 import com.jjmin.mbliecontent.data.remote.DeploymentRepository
 import com.jjmin.mbliecontent.data.remote.MainRepository
+import com.jjmin.mbliecontent.ui.login.SelectLoginActivity
 import com.jjmin.mbliecontent.ui.sticker.Sticker
 import com.jjmin.mbliecontent.util.RealmUtils
 import com.jjmin.mbliecontent.util.SingleLiveEvent
@@ -45,7 +46,8 @@ class MainViewModel(
     val logout = View.OnLongClickListener {
         userDelete()
         useCase.activity.toast("로그아웃이 완료되었습니다.")
-        useCase.activity.finish()
+        useCase.activity.finishAffinity()
+        useCase.activity.startActivity(Intent(useCase.activity,SelectLoginActivity::class.java))
         return@OnLongClickListener true
     }
 

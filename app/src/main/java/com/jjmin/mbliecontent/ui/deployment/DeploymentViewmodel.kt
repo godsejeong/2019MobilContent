@@ -11,24 +11,16 @@ import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.graphics.drawable.DrawableCompat
 import androidx.databinding.ObservableField
 import androidx.lifecycle.ViewModel
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
 import com.jjmin.mbliecontent.R
 import com.jjmin.mbliecontent.data.model.SendShapeData
-import com.jjmin.mbliecontent.data.remote.DeploymentRepository
 import com.jjmin.mbliecontent.ui.main.MainActivity
 import com.jjmin.mbliecontent.ui.shape.Shape
-import com.jjmin.mbliecontent.util.RealmUtils
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
-import org.jetbrains.anko.toast
-import org.json.JSONArray
+import com.jjmin.mbliecontent.util.TTSUtils
 
-class DeploymentViewmodel(val useCase: DeploymentUseCase,val repository: DeploymentRepository) : ViewModel(){
-
-    var statusText: ObservableField<String> = ObservableField()
+class DeploymentViewmodel(val useCase: DeploymentUseCase) : ViewModel() {
+    var tts = TTSUtils
+    var isvisible: ObservableField<Boolean> = ObservableField()
     var statussubText : ObservableField<String> = ObservableField()
-    var isvisible : ObservableField<Boolean> = ObservableField()
 
     val shapesettingBtn = View.OnClickListener {
         var intent = Intent(useCase.activity, MainActivity::class.java)
@@ -36,68 +28,46 @@ class DeploymentViewmodel(val useCase: DeploymentUseCase,val repository: Deploym
     }
 
     init {
-        useCase.activity.viewDataBinding.ShapeLayout.removeAllShape()
-        statussubText.set("배치한 도형이 없습니다.")
-        ShapeDeployment()
+        tts.speak("환영합니다. " +
+                "찾고 싶으신 음식을 찾아드립니다. " +
+                "도형을 더블클릭하여 음식의 정보를 보고 사방향 클릭을 이용해 음식의 세부정보를 볼 수 있습니다.")
         isvisible.set(true)
-
+        statussubText.set("배치한 도형이 없습니다.")
+        useCase.activity.viewDataBinding.ShapeLayout.removeAllShape()
+        ShapeDeployment()
     }
 
     @SuppressLint("CheckResult")
-    fun ShapeDeployment(){
-        repository.ShapeDeployment(RealmUtils.getToken())
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe ({
-                Log.e("deploment", Gson().toJson(it))
-                try {
-                    var jsonArray = JSONArray(it.locates)
-                    var list = ArrayList<SendShapeData>()
-                    Log.e("jsonArray", jsonArray.toString())
-
-                    var json: ArrayList<SendShapeData> =
-                        Gson().fromJson(jsonArray.toString(), object : TypeToken<ArrayList<SendShapeData>>() {}.type)
-                    list.addAll(json)
-
-                    (0 until list.size).forEach { it ->
-                       var array =list[it]
-                        var unwrappedDrawable: Drawable? = null
-                        if (array.num == 1) {
-                            unwrappedDrawable = AppCompatResources.getDrawable(useCase.activity, R.drawable.shape_rectangle)
-                        } else if (array.num == 2) {
-                            unwrappedDrawable = AppCompatResources.getDrawable(useCase.activity, R.drawable.shape_circle)
-                        } else if (array.num == 3) {
-                            unwrappedDrawable =
-                                AppCompatResources.getDrawable(useCase.activity, R.drawable.shape_star)
-                        } else if (array.num == 4) {
-                            unwrappedDrawable =
-                                AppCompatResources.getDrawable(useCase.activity, R.drawable.shape_triangle)
-                        }
-                        var drawable = DrawableCompat.wrap(unwrappedDrawable!!)
-                        DrawableCompat.setTint(drawable, array.color)
-                        Log.e("color", array.color.toString())
-
-                        var shape = Shape(useCase.activity,getBitmapFromDrawable(drawable!!, 300, 300),
-                            array.color,array.id,array.num,array.x,array.y)
-                            useCase.activity.viewDataBinding.ShapeLayout.addShare(shape)
-                    }
-                }catch (e : NullPointerException){
-
-                }
-                when {
-                    it.message == "SUCCESS" -> {
-                        statusText.set("수정하기")
-                        isvisible.set(false)
-                    }
-                    it.message == "no data" -> statusText.set("배치하기")
-                    it.message == "no id" -> statusText.set("배치하기")
-                }
-
-            }){
-                useCase.activity.toast("서버가 점검중입니다.")
-                Log.e("DeploymentErrorMessage",it.message)
+    fun ShapeDeployment() {
+        var list = useCase.list
+        (0 until list.size).forEach { it ->
+            var array = list[it]
+            var unwrappedDrawable: Drawable? = null
+            if (array.num == 1) {
+                unwrappedDrawable = AppCompatResources.getDrawable(useCase.activity, R.drawable.shape_rectangle)
+            } else if (array.num == 2) {
+                unwrappedDrawable = AppCompatResources.getDrawable(useCase.activity, R.drawable.shape_circle)
+            } else if (array.num == 3) {
+                unwrappedDrawable =
+                    AppCompatResources.getDrawable(useCase.activity, R.drawable.shape_star)
+            } else if (array.num == 4) {
+                unwrappedDrawable =
+                    AppCompatResources.getDrawable(useCase.activity, R.drawable.shape_triangle)
             }
+
+            var drawable = DrawableCompat.wrap(unwrappedDrawable!!)
+            DrawableCompat.setTint(drawable, array.color)
+            Log.e("color", array.color.toString())
+
+            var shape = Shape(
+                useCase.activity, getBitmapFromDrawable(drawable!!, 300, 300),
+                array.color, array.id, array.num, array.x, array.y,array.name,array.allergy,array.material,array.explain,array.country)
+            useCase.activity.viewDataBinding.ShapeLayout.addShare(shape)
+            isvisible.set(false)
+
+        }
     }
+
 
     private fun getBitmapFromDrawable(drawable: Drawable, width: Int, height: Int): Bitmap {
         val bmp = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
@@ -106,6 +76,4 @@ class DeploymentViewmodel(val useCase: DeploymentUseCase,val repository: Deploym
         drawable.draw(canvas)
         return bmp
     }
-
-
 }

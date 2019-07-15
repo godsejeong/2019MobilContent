@@ -7,6 +7,7 @@ import com.jjmin.mbliecontent.di.NetworkModules
 import com.jjmin.mbliecontent.di.RepositoryModules
 import com.jjmin.mbliecontent.util.RealmUtils
 import com.jjmin.mbliecontent.util.SharedUtils
+import com.jjmin.mbliecontent.util.TTSUtils
 import org.koin.core.context.startKoin
 import org.koin.core.module.Module
 
@@ -38,5 +39,6 @@ class MyApplication : Application() {
 
         context = this
         SharedUtils.init(this)
+        TTSUtils.init(this)
     }
 }

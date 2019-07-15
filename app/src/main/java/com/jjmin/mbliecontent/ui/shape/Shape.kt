@@ -4,14 +4,13 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.PointF
-import android.util.Log
 import android.view.GestureDetector
 import android.view.MotionEvent
-import com.jjmin.mbliecontent.ui.food.FoodInfoActivity
-import com.jjmin.mbliecontent.ui.sticker.BaseSticker
+import com.jjmin.mbliecontent.ui.select.UserSelectActivity
 
-class Shape(context: Context, bitmap: Bitmap, color: Int, id: Int, num: Int, x: Float, y: Float) :
-    BaseShape(context, bitmap, x, y) {
+class Shape(context: Context, bitmap: Bitmap, color: Int, id: Int, num: Int, x: Float, y: Float,
+            name : String,allergy : String,material : String,explain : String,country : String) :
+    BaseShape(context, bitmap, x, y ) {
 
     private val mLastSinglePoint = PointF()//스크린의 커튼을 가리키는 점
     private val mLastDistanceVector = PointF()//백테계산
@@ -61,8 +60,12 @@ class Shape(context: Context, bitmap: Bitmap, color: Int, id: Int, num: Int, x: 
 
     var gestureDetector = GestureDetector(object : GestureDetector.SimpleOnGestureListener() {
         override fun onDoubleTap(e: MotionEvent): Boolean {
-            var intent =  Intent(context, FoodInfoActivity::class.java)
-            intent.putExtra("id",id)
+            var intent =  Intent(context, UserSelectActivity::class.java)
+            intent.putExtra("name",name)
+            intent.putExtra("allergy",allergy)
+            intent.putExtra("material",material)
+            intent.putExtra("explain",explain)
+                intent.putExtra("country",country)
             context?.startActivity(intent)
             return true
         }

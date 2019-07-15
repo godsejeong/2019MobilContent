@@ -1,5 +1,7 @@
 package com.jjmin.mbliecontent.data.model
 
+import java.io.Serializable
+
 data class SendShapeData(
     var x : Float = 0f,
     var y : Float = 0f,
@@ -11,4 +13,4 @@ data class SendShapeData(
     var material : String = "",
     var allergy : String = "",
     var name : String = ""
-)
+) : Serializable

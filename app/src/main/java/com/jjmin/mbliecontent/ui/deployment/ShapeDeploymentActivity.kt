@@ -10,10 +10,12 @@ import com.jjmin.mbliecontent.ui.base.BaseActivity
 import com.jjmin.mbliecontent.ui.main.MainUseCase
 import com.jjmin.mbliecontent.util.RealmUtils.realm
 import com.jjmin.mbliecontent.util.SharedUtils
+import com.jjmin.mbliecontent.util.TTSUtils
 import org.koin.android.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 
 class ShapeDeploymentActivity : BaseActivity<ActivityShapeDeploymentBinding>() {
+    var tts = TTSUtils
     override val LayoutId: Int = R.layout.activity_shape_deployment
 
     val useCase by lazy { DeploymentUseCase(this) }
@@ -26,4 +28,14 @@ class ShapeDeploymentActivity : BaseActivity<ActivityShapeDeploymentBinding>() {
 
 
     }
+
+
+    override fun onPause() {
+        super.onPause()
+        if (isFinishing) {
+            tts.stop()
+            overridePendingTransition(0, 0)
+        }
+    }
+
 }

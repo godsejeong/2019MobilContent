@@ -24,15 +24,13 @@
                 android:id="@+id/mainNextBtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                tools:text="배치하기"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                android:onClick="@{vm.shapesettingBtn}"
-                android:text="@{vm.statusText}"
+                android:text="메인화면"
                 android:textStyle="bold"
                 android:textSize="20sp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
                 android:layout_gravity="right|top"
-                android:layout_marginRight="20dp"
+                android:layout_marginLeft="20dp"
                 android:layout_marginTop="40dp"
                 android:textColor="@android:color/black"/>
 
@@ -47,8 +45,6 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"/>
-
-
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

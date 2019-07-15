@@ -14,7 +14,7 @@ import org.koin.core.parameter.parametersOf
 
 class FoodInfoActivity : BaseActivity<com.jjmin.mbliecontent.databinding.ActivityFoodInfoBinding>() {
 
-    override val LayoutId: Int = R.layout.activity_food_info
+    override val LayoutId : Int = R.layout.activity_food_info
 
     val useCase by lazy { FoodInfoUseCase(this) }
     val viewmodel: FoodInfoViewModel by viewModel { parametersOf(useCase) }

@@ -30,7 +30,7 @@ object Modules{
 
     val LoginModule = module {
         viewModel {(usecase : LoginUseCase) ->
-            LoginViewModel(usecase,get())
+            LoginViewModel(usecase,get(),get())
         }
     }
 
@@ -48,9 +48,10 @@ object Modules{
 
     val DeploymentModule = module {
         viewModel { (usecase : DeploymentUseCase)->
-            DeploymentViewmodel(usecase,get())
+            DeploymentViewmodel(usecase)
         }
     }
+
 
 //    val uiModule = listOf(SplashModule,MainModule,LoginModule,RegisterModule)
 }
