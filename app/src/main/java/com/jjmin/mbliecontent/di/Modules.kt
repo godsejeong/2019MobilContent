@@ -24,7 +24,7 @@ object Modules{
 
     val MainModule = module {
         viewModel {(usecase : MainUseCase) ->
-            MainViewModel(usecase,get())
+            MainViewModel(usecase,get(),get())
         }
     }
 

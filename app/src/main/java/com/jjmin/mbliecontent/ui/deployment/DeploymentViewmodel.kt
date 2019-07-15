@@ -14,18 +14,15 @@ import androidx.lifecycle.ViewModel
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.jjmin.mbliecontent.R
-import com.jjmin.mbliecontent.data.model.DeploymentData
 import com.jjmin.mbliecontent.data.model.SendShapeData
 import com.jjmin.mbliecontent.data.remote.DeploymentRepository
 import com.jjmin.mbliecontent.ui.main.MainActivity
 import com.jjmin.mbliecontent.ui.shape.Shape
-import com.jjmin.mbliecontent.ui.sticker.Sticker
 import com.jjmin.mbliecontent.util.RealmUtils
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import org.jetbrains.anko.toast
 import org.json.JSONArray
-import org.json.JSONObject
 
 class DeploymentViewmodel(val useCase: DeploymentUseCase,val repository: DeploymentRepository) : ViewModel(){
 
@@ -69,6 +66,12 @@ class DeploymentViewmodel(val useCase: DeploymentUseCase,val repository: Deploym
                             unwrappedDrawable = AppCompatResources.getDrawable(useCase.activity, R.drawable.shape_rectangle)
                         } else if (array.num == 2) {
                             unwrappedDrawable = AppCompatResources.getDrawable(useCase.activity, R.drawable.shape_circle)
+                        } else if (array.num == 3) {
+                            unwrappedDrawable =
+                                AppCompatResources.getDrawable(useCase.activity, R.drawable.shape_star)
+                        } else if (array.num == 4) {
+                            unwrappedDrawable =
+                                AppCompatResources.getDrawable(useCase.activity, R.drawable.shape_triangle)
                         }
                         var drawable = DrawableCompat.wrap(unwrappedDrawable!!)
                         DrawableCompat.setTint(drawable, array.color)

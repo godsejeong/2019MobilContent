@@ -9,15 +9,13 @@ import android.view.GestureDetector
 import android.view.MotionEvent
 import com.jjmin.mbliecontent.ui.food.FoodInfoActivity
 
-class Sticker(context: Context, bitmap: Bitmap, color: Int, id: Int, num: Int) :
-    BaseSticker(context, bitmap) {
+class Sticker(context: Context, bitmap: Bitmap, color: Int, id: Int, num: Int,x : Float?, y : Float?) :
+    BaseSticker(context, bitmap,x,y) {
 
     private val mLastSinglePoint = PointF()//스크린의 커튼을 가리키는 점
     private val mLastDistanceVector = PointF()//백테계산
     private val mDistanceVector = PointF()//두손가락 사이의 백터
     private var mLastDistance: Float = 0.toFloat()//손가락 사이의 길이
-    var x : Float? = 0f
-    var y : Float? = 0f
     var num : Int = num
     var color = color
     var id = id

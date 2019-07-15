@@ -13,6 +13,8 @@
             android:supportsRtl="true"
             android:theme="@style/NoActionBar"
             android:usesCleartextTraffic="true">
+        <activity android:name=".ui.food.UserFoodInfoActivity">
+        </activity>
         <activity android:name=".ui.deployment.ShapeDeploymentActivity">
         </activity>
         <activity android:name=".UserSelectActivity">
@@ -41,4 +43,5 @@
         <activity android:name=".ui.main.MainActivity">
         </activity>
     </application>
+
 </manifest>

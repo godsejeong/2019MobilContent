@@ -11,6 +11,8 @@ import android.view.GestureDetector
 import android.view.MotionEvent
 import android.view.View
 import com.jjmin.mbliecontent.ui.food.FoodInfoActivity
+import com.jjmin.mbliecontent.ui.shape.ShapeManager.Companion.instance
+import com.jjmin.mbliecontent.ui.sticker.StickerManager
 
 class ShapeLayout : View, View.OnTouchListener {
 
@@ -114,7 +116,30 @@ class ShapeLayout : View, View.OnTouchListener {
 
 
     override fun onTouch(v: View, event: MotionEvent): Boolean {
+        when (event.action and MotionEvent.ACTION_MASK) {
+            MotionEvent.ACTION_DOWN, MotionEvent.ACTION_POINTER_DOWN -> {
 
+                mStick = instance?.getSticker(event.x, event.y)
+                if (mStick == null) {
+                    if (event.pointerCount == 2) {
+                        Log.e("Log", "안녕")
+                        //处理双指触摸屏幕，第一指没有触摸到贴纸，第二指触摸到贴纸情况
+                        mStick = instance?.getSticker(event.getX(1), event.getY(1))
+                    }
+                }
+                if (mStick != null) {
+                    instance?.setFocusSticker(mStick!!)
+                }
+            }
+            else -> {
+            }
+        }
+        if (mStick != null) {
+            mStick!!.onTouch(event)
+        } else {
+            StickerManager.instance?.clearAllFocus()
+        }
+        invalidate()
         return true
     }
 }

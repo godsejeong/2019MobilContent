@@ -10,6 +10,7 @@ import com.jjmin.mbliecontent.UserMainActivity
 import com.jjmin.mbliecontent.data.model.UserInfo
 import com.jjmin.mbliecontent.data.remote.LoginRepository
 import com.jjmin.mbliecontent.ui.deployment.ShapeDeploymentActivity
+import com.jjmin.mbliecontent.ui.main.MainActivity
 import com.jjmin.mbliecontent.ui.register.RegisterActviity
 import com.jjmin.mbliecontent.util.RealmUtils
 import com.jjmin.mbliecontent.util.SingleLiveEvent
@@ -34,9 +35,6 @@ class LoginViewModel(val useCase: LoginUseCase,val loginRepository: LoginReposit
     val BusinessButton = View.OnClickListener {
         SetIntnet(BusinessLoginActivity::class.java)
     }
-
-
-
 
     val RegisterButton = View.OnClickListener {
         SetIntnet(RegisterActviity::class.java)
@@ -72,7 +70,7 @@ class LoginViewModel(val useCase: LoginUseCase,val loginRepository: LoginReposit
                 mRealm.commitTransaction()
                 useCase.activity.toast("${RealmUtils.getCompanyName()} 로그인 합니다.")
                 useCase.activity.finishAffinity()
-                SetIntnet(ShapeDeploymentActivity::class.java)
+                SetIntnet(MainActivity::class.java)
             }) {
                 Log.e("loginError",it.message)
                 if(it.message?.contains("401")!!)

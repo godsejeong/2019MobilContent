@@ -31,6 +31,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
     override val LayoutId = R.layout.activity_main
     var position = 0
     var sendList = ArrayList<String>()
+    var issend: Boolean = true
     val useCase by lazy { MainUseCase(this) }
     val viewmodel: MainViewModel by viewModel { parametersOf(useCase) }
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -67,12 +68,16 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
 
                     jsonArray.add(jsonObj)
 
-                    Log.e("asdf", Gson().toJson(jsonArray))
-                    viewmodel.SendServer(Gson().toJson(jsonArray))
+                    issend = true
                 } else {
                     Toast.makeText(this, "음식정보를 모두 기입해주세요.", Toast.LENGTH_SHORT).show()
+                    issend = false
                 }
             }
+
+            Log.e("asdf", Gson().toJson(jsonArray))
+            if (issend)
+                viewmodel.SendServer(Gson().toJson(jsonArray))
         })
     }
 
@@ -82,58 +87,8 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
             if (requestCode == 100) {
                 var type = data?.getIntExtra("type", 0)
                 Log.e("asdfasdfa", "ASDFASdfasdfsd")
-                Colordialog(type!!)
+                viewmodel.Colordialog(type!!)
             }
         }
-    }
-
-    fun setStiker(type: Int, color: Int) {
-        var unwrappedDrawable: Drawable? = null
-        if (type == 1) {
-            unwrappedDrawable = AppCompatResources.getDrawable(this, R.drawable.shape_rectangle)
-        } else if (type == 2) {
-            unwrappedDrawable = AppCompatResources.getDrawable(this, R.drawable.shape_circle)
-        }
-
-        var drawable = DrawableCompat.wrap(unwrappedDrawable!!)
-        DrawableCompat.setTint(drawable, color)
-
-        var sticker = Sticker(
-            this, getBitmapFromDrawable(drawable!!, 300, 300),
-            color, position, type
-        )
-        viewDataBinding.slStickerLayout.addSticker(sticker)
-        position++
-    }
-
-    fun Colordialog(type: Int) {
-        var color: Int? = null
-        ColorPickerDialog.Builder(this, AlertDialog.THEME_DEVICE_DEFAULT_DARK)
-            .setTitle("ColorPicker Dialog")
-            .setPreferenceName("MyColorPickerDialog")
-            .setPositiveButton(getString(R.string.confirm),
-                ColorEnvelopeListener { envelope, fromUser ->
-                    //                    setLayoutColor(envelope)
-                    Log.e("color", envelope.color.toString())
-                    color = envelope.color
-                    setStiker(type, color!!)
-                })
-            .setNegativeButton(
-                getString(R.string.cancel)
-            ) { dialogInterface, i ->
-                dialogInterface.dismiss()
-                color = null
-            }
-            .attachAlphaSlideBar(true) // default is true. If false, do not show the AlphaSlideBar.
-            .attachBrightnessSlideBar(true)  // default is true. If false, do not show the BrightnessSlideBar.
-            .show()
-    }
-
-    private fun getBitmapFromDrawable(drawable: Drawable, width: Int, height: Int): Bitmap {
-        val bmp = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
-        val canvas = Canvas(bmp)
-        drawable.setBounds(0, 0, canvas.width, canvas.height)
-        drawable.draw(canvas)
-        return bmp
     }
 }

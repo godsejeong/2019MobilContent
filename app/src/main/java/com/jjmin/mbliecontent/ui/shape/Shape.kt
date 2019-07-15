@@ -4,9 +4,11 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.PointF
+import android.util.Log
 import android.view.GestureDetector
 import android.view.MotionEvent
 import com.jjmin.mbliecontent.ui.food.FoodInfoActivity
+import com.jjmin.mbliecontent.ui.sticker.BaseSticker
 
 class Shape(context: Context, bitmap: Bitmap, color: Int, id: Int, num: Int, x: Float, y: Float) :
     BaseShape(context, bitmap, x, y) {
@@ -50,6 +52,7 @@ class Shape(context: Context, bitmap: Bitmap, color: Int, id: Int, num: Int, x: 
      * @param currentVector
      * @return
      */
+
     fun calculateDegrees(lastVector: PointF, currentVector: PointF): Float {
         val lastDegrees = Math.atan2(lastVector.y.toDouble(), lastVector.x.toDouble()).toFloat()
         val currentDegrees = Math.atan2(currentVector.y.toDouble(), currentVector.x.toDouble()).toFloat()

@@ -17,7 +17,7 @@ class CustomDrawView(context: Context, attrs: AttributeSet,bitmap: Bitmap) : Vie
     private val mDelBitmap: Bitmap//스티커 이미지
     var isFocus: Boolean = false//드로어 여부
     protected var mMode: Int = 0//当前模式
-//    val matrix : Matrix
+//  val matrix : Matrix
     private val mSrcPoints: FloatArray//矩阵变换前的点坐标
     private val mDstPoints: FloatArray//矩阵变换后的点坐标
     val stickerBitmapBound: RectF//스티커 범위

@@ -18,5 +18,4 @@ class FoodInfoViewModel(val useCase: FoodInfoUseCase) : ViewModel() {
     fun CompleteClick(){
         _clickComplete.call()
     }
-
 }

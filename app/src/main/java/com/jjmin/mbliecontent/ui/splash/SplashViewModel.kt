@@ -4,8 +4,6 @@ import android.content.Intent
 import android.os.Handler
 import android.util.Log
 import androidx.lifecycle.ViewModel
-import com.jjmin.mbliecontent.ui.deployment.ShapeDeploymentActivity
-import com.jjmin.mbliecontent.ui.login.BusinessLoginActivity
 import com.jjmin.mbliecontent.ui.login.SelectLoginActivity
 import com.jjmin.mbliecontent.ui.main.MainActivity
 import com.jjmin.mbliecontent.util.RealmUtils
@@ -18,7 +16,7 @@ class SplashViewModel(val useCase: SplashUseCase) : ViewModel() {
 
         handler.postDelayed({
             if(RealmUtils.getToken()!= null && RealmUtils.getToken() != ""){
-                intent = Intent(useCase.activity.application,ShapeDeploymentActivity::class.java)
+                intent = Intent(useCase.activity.application,MainActivity::class.java)
                 useCase.activity.toast("${RealmUtils.getCompanyName()} 로그인 합니다.")
             }else if(RealmUtils.getToken() == null || RealmUtils.getToken() == "")
              intent = Intent(useCase.activity.application,SelectLoginActivity::class.java)

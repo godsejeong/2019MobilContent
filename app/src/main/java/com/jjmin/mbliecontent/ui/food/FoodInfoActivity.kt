@@ -3,6 +3,7 @@ package com.jjmin.mbliecontent.ui.food
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.Observer
 import com.jjmin.mbliecontent.R
@@ -22,6 +23,8 @@ class FoodInfoActivity : BaseActivity<com.jjmin.mbliecontent.databinding.Activit
         super.onCreate(savedInstanceState)
         viewDataBinding.vm = viewmodel
         id = intent.getIntExtra("id",0)
+        Log.e("id", id.toString())
+
         viewDataBinding.foodNameEt.setText( SharedUtils.getFood(id))
         viewDataBinding.foodCountryNameEt.setText( SharedUtils.getCountry(id))
         viewDataBinding.foodExplanEt.setText( SharedUtils.getxplan(id))

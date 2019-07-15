@@ -8,7 +8,9 @@ import com.jjmin.mbliecontent.R
 
 abstract class BaseSticker(
     context: Context,
-    bitmap: Bitmap//스티커 이미지
+    bitmap: Bitmap,//스티커 이미지
+    x : Float?,
+    y : Float?
 ) : ISupportOperation {
     private val mDelBitmap: Bitmap//스티커 이미지
     val matrix: Matrix//이미지 변환 감시
@@ -20,6 +22,8 @@ abstract class BaseSticker(
     val delBitmapBound: RectF//삭제 범위
     private val mMidPointF: PointF//스티거 중심 좌표
     val bitmap = bitmap
+    var x = x
+    var y =y
 
     init {
         matrix = Matrix()
@@ -48,7 +52,13 @@ abstract class BaseSticker(
         windowManager.defaultDisplay.getMetrics(displayMetrics)
         val dx = (displayMetrics.widthPixels / 2 - this.bitmap.width / 2).toFloat()
         val dy = (displayMetrics.heightPixels / 2 - this.bitmap.height / 2).toFloat()
-        translate(dx, dy)
+
+        if(x == null && y== null){
+            translate(dx, dy)
+        }else{
+            translate(x!! - 150,y!! - 150)
+        }
+
         //将贴纸默认缩小1/2
         scale(0.5f, 0.5f)
     }
