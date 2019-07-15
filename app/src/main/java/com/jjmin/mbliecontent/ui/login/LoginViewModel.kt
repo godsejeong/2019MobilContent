@@ -5,25 +5,20 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.drawable.Drawable
-import android.os.Bundle
 import android.util.Log
 import android.view.View
-import androidx.appcompat.content.res.AppCompatResources
-import androidx.core.graphics.drawable.DrawableCompat
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import com.jjmin.mbliecontent.R
-import com.jjmin.mbliecontent.UserMainActivity
 import com.jjmin.mbliecontent.data.model.SendShapeData
 import com.jjmin.mbliecontent.data.model.UserInfo
 import com.jjmin.mbliecontent.data.remote.DeploymentRepository
 import com.jjmin.mbliecontent.data.remote.LoginRepository
+import com.jjmin.mbliecontent.ui.blind.BlindUserActivity
 import com.jjmin.mbliecontent.ui.deployment.ShapeDeploymentActivity
 import com.jjmin.mbliecontent.ui.main.MainActivity
 import com.jjmin.mbliecontent.ui.register.RegisterActviity
-import com.jjmin.mbliecontent.ui.sticker.Sticker
 import com.jjmin.mbliecontent.util.RealmUtils
 import com.jjmin.mbliecontent.util.SingleLiveEvent
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -32,6 +27,8 @@ import io.realm.Realm
 import org.jetbrains.anko.toast
 import org.json.JSONArray
 import java.util.*
+import kotlin.collections.ArrayList
+
 
 class LoginViewModel(val useCase: LoginUseCase,val loginRepository: LoginRepository,val deploymentRepository: DeploymentRepository) : ViewModel(){
 
@@ -52,6 +49,7 @@ class LoginViewModel(val useCase: LoginUseCase,val loginRepository: LoginReposit
     val RegisterButton = View.OnClickListener {
         SetIntnet(RegisterActviity::class.java)
     }
+
 
     fun LoginClick(){
         _clicklogin.call()
@@ -113,11 +111,52 @@ class LoginViewModel(val useCase: LoginUseCase,val loginRepository: LoginReposit
                         Gson().fromJson(jsonArray.toString(), object : TypeToken<ArrayList<SendShapeData>>() {}.type)
                     list.addAll(json)
 
-                    var intent = Intent(useCase.activity,ShapeDeploymentActivity::class.java)
-                    intent.putExtra("list",list)
-                    useCase.activity.startActivity(intent)
-                    useCase.activity.finishAffinity()
+                    if((useCase.activity as UserLoginActivity).viewDataBinding.userCheckbox.isChecked){
+                        var korea = ArrayList<SendShapeData>()
+                        var jspan = ArrayList<SendShapeData>()
+                        var china = ArrayList<SendShapeData>()
+                        var america = ArrayList<SendShapeData>()
 
+                        (0 until list.size).forEach {
+                            var data = list[it]
+
+                            when(list[it].num){
+                                1->{
+                                    korea.apply {
+                                        add(SendShapeData(data.x,data.y,data.id,data.num,data.color,data.country,data.explain,data.material,data.allergy,data.name))
+                                    }
+                                }
+                                2->{
+                                    jspan.apply {
+                                        add(SendShapeData(data.x,data.y,data.id,data.num,data.color,data.country,data.explain,data.material,data.allergy,data.name))
+                                    }
+                                }
+                                3->{
+                                    china.apply {
+                                        add(SendShapeData(data.x,data.y,data.id,data.num,data.color,data.country,data.explain,data.material,data.allergy,data.name))
+                                    }
+                                }
+                                4->{
+                                    america.apply {
+                                        add(SendShapeData(data.x,data.y,data.id,data.num,data.color,data.country,data.explain,data.material,data.allergy,data.name))
+                                    }
+                                }
+                            }
+                        }
+
+                        var intent = Intent(useCase.activity, BlindUserActivity::class.java)
+                        intent.putExtra("korealist",korea)
+                        intent.putExtra("jspanlist",jspan)
+                        intent.putExtra("chinalist",china)
+                        intent.putExtra("americalist",america)
+                        useCase.activity.startActivity(intent)
+                    }else {
+                        var intent = Intent(useCase.activity, ShapeDeploymentActivity::class.java)
+                        intent.putExtra("list", list)
+                        useCase.activity.startActivity(intent)
+                    }
+
+                    useCase.activity.finishAffinity()
                 } catch (e: NullPointerException) {
 
                 }

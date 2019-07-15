@@ -29,6 +29,7 @@ class MyApplication : Application() {
                 Modules.RegisterModule,
                 Modules.FoodModule,
                 Modules.DeploymentModule,
+                Modules.BlindModule,
                 NetworkModules.networkModules,
                 RepositoryModules.LoginModule,
                 RepositoryModules.RegisterModule,

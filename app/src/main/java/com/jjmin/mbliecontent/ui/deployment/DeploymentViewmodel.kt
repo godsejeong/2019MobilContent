@@ -30,6 +30,7 @@ class DeploymentViewmodel(val useCase: DeploymentUseCase) : ViewModel() {
     init {
         tts.speak("환영합니다. " +
                 "찾고 싶으신 음식을 찾아드립니다. " +
+                ". 현재 화면에 표시되는 것은 이 뷔페의 음식 정보들 이며," +
                 "도형을 더블클릭하여 음식의 정보를 보고 사방향 클릭을 이용해 음식의 세부정보를 볼 수 있습니다.")
         isvisible.set(true)
         statussubText.set("배치한 도형이 없습니다.")

@@ -3,6 +3,12 @@
           package="com.jjmin.mbliecontent">
 
     <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.BLUETOOTH"/>
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
+    <uses-feature android:name="android.hardware.bluetooth_le" android:required="true"/>
 
     <application
             android:name=".MyApplication"
@@ -13,14 +19,17 @@
             android:supportsRtl="true"
             android:theme="@style/NoActionBar"
             android:usesCleartextTraffic="true">
+        <activity android:name=".ClickActivity">
+        </activity>
+        <activity android:name=".ui.blind.BlindUserActivity">
+        </activity>
         <activity android:name=".ui.deployment.ShapeDeploymentActivity">
         </activity>
-        <activity android:name=".ui.select.UserSelectActivity"
-                  android:theme="@android:style/Theme.Translucent">
+        <activity
+                android:name=".ui.select.UserSelectActivity"
+                android:theme="@android:style/Theme.Translucent">
         </activity>
         <activity android:name=".ui.food.FoodInfoActivity">
-        </activity>
-        <activity android:name=".UserMainActivity">
         </activity>
         <activity
                 android:name=".ShapeDialog"

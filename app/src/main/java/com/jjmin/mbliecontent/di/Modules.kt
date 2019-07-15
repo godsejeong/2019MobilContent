@@ -1,5 +1,7 @@
 package com.jjmin.mbliecontent.di
 
+import com.jjmin.mbliecontent.ui.blind.BlindUseCase
+import com.jjmin.mbliecontent.ui.blind.BlindViewModel
 import com.jjmin.mbliecontent.ui.deployment.DeploymentUseCase
 import com.jjmin.mbliecontent.ui.deployment.DeploymentViewmodel
 import com.jjmin.mbliecontent.ui.food.FoodInfoUseCase
@@ -49,6 +51,12 @@ object Modules{
     val DeploymentModule = module {
         viewModel { (usecase : DeploymentUseCase)->
             DeploymentViewmodel(usecase)
+        }
+    }
+
+    val BlindModule = module {
+        viewModel { (usecase : BlindUseCase)->
+            BlindViewModel(usecase)
         }
     }
 
