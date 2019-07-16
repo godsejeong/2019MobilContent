@@ -2,8 +2,8 @@ package com.jjmin.mbliecontent.ui.deployment
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.RemoteException
 import android.util.Log
-import com.estimote.sdk.BeaconManager
 import com.estimote.sdk.Region
 import com.jjmin.mbliecontent.R
 import com.jjmin.mbliecontent.databinding.ActivityShapeDeploymentBinding
@@ -13,10 +13,15 @@ import org.koin.android.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 import java.util.*
 import com.estimote.sdk.SystemRequirementsChecker
+import com.google.gson.Gson
 import com.jjmin.mbliecontent.ui.select.UserSelectActivity
 import com.jjmin.mbliecontent.util.SharedUtils
+import org.altbeacon.beacon.*
+import org.jetbrains.anko.toast
 
-class ShapeDeploymentActivity : BaseActivity<ActivityShapeDeploymentBinding>() {
+class ShapeDeploymentActivity : BaseActivity<ActivityShapeDeploymentBinding>() , BeaconConsumer {
+
+
     var tts = TTSUtils
     override val LayoutId: Int = R.layout.activity_shape_deployment
     lateinit var beaconManager: BeaconManager
@@ -28,38 +33,20 @@ class ShapeDeploymentActivity : BaseActivity<ActivityShapeDeploymentBinding>() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewDataBinding.vm = viewmodel
-        beaconManager = BeaconManager(this)
-        ischeck = true
-        beaconManager.setRangingListener { p0, p1 ->
-            if (p1!!.isNotEmpty()) {
-                Log.e("ASdfasdf","ASdfasdf")
-                var nearestBeacon = p1.get(0)
-                Log.d("Airport", "Nearest places: " + nearestBeacon.rssi)
-                if(nearestBeacon.rssi >= -65){
-                    if(ischeck) {
-                        var intent = Intent(this, UserSelectActivity::class.java)
-                        intent.putExtra("name", SharedUtils.getFood(0))
-                        intent.putExtra("allergy", SharedUtils.getAllergy(0))
-                        intent.putExtra("material", SharedUtils.getMeterial(0))
-                        intent.putExtra("explain", SharedUtils.getxplan(0))
-                        intent.putExtra("country", SharedUtils.getCountry(0))
-                        startActivity(intent)
-                        ischeck = false
-                    }
-                }
-            }
-        }
+        viewDataBinding.vm = viewmodel
 
-        region = Region ("ranged region", UUID.fromString("74278BDA-B644-4520-8F0C-720EAF059935"), null, null)
+        beaconManager = BeaconManager.getInstanceForApplication(this)
 
+
+        beaconManager.beaconParsers.add(BeaconParser().setBeaconLayout("m:2-3=0215,i:4-19,i:20-21,i:22-23,p:24-24,d:25-25"))
+
+        beaconManager.bind(this)
 
     }
 
     override fun onResume() {
         super.onResume()
         ischeck = true
-        SystemRequirementsChecker.checkWithDefaultDialogs(this)
-        beaconManager.connect { beaconManager.startRanging(region) }
     }
 
     override fun onPause() {
@@ -73,8 +60,49 @@ class ShapeDeploymentActivity : BaseActivity<ActivityShapeDeploymentBinding>() {
     override fun onDestroy() {
         super.onDestroy()
             tts.stop()
-            overridePendingTransition(0, 0)
+        beaconManager.unbind(this)
+        overridePendingTransition(0, 0)
 
     }
 
+    override fun onBeaconServiceConnect() {
+        beaconManager.setRangeNotifier(object : RangeNotifier {
+            override fun didRangeBeaconsInRegion(p0: MutableCollection<Beacon>?, p1: org.altbeacon.beacon.Region?) {
+                if (p0?.size!! > 0) {
+                    for (beacon in p0) {
+                        Log.e("asdf", Gson().toJson(beacon))
+                        "00:13:AA:00:11:D9"
+                        "00:13:AA:00:09:6A"
+
+                        if(beacon.bluetoothAddress == "00:13:AA:00:11:D9") {
+                            if (beacon.rssi >= -65) {
+                                if (ischeck) {
+                                    var intent = Intent(this@ShapeDeploymentActivity, UserSelectActivity::class.java)
+                                    intent.putExtra("name", SharedUtils.getFood(0))
+                                    intent.putExtra("allergy", SharedUtils.getAllergy(0))
+                                    intent.putExtra("material", SharedUtils.getMeterial(0))
+                                    intent.putExtra("explain", SharedUtils.getxplan(0))
+                                    intent.putExtra("country", SharedUtils.getCountry(0))
+                                    startActivity(intent)
+                                    ischeck = false
+                                }
+                            }
+                        }else if(beacon.bluetoothAddress == "00:13:AA:00:09:6A"){
+                            if (beacon.rssi >= -65) {
+                                tts.speak("장애물이 주변에 있습니다.")
+                                toast("장애물이 주변에 있습니다.")
+                            }
+                        }
+
+                    }
+                }
+            }
+        })
+
+        try {
+            beaconManager.startRangingBeaconsInRegion(org.altbeacon.beacon.Region("myRangingUniqueId", null, null, null))
+        } catch (e: RemoteException) {
+        }
+
+    }
 }

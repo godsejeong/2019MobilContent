@@ -64,7 +64,6 @@ class UserLoginActivity : BaseActivity<com.jjmin.mbliecontent.databinding.Activi
         }else{
 
         }
-
     }
 
     fun permissionCheck(){

@@ -71,7 +71,7 @@ class UserSelectActivity : Activity() {
     override fun onPause() {
         super.onPause()
         if (isFinishing) {
-//            tts.stop()
+            tts.stop()
             overridePendingTransition(0, 0)
         }
     }

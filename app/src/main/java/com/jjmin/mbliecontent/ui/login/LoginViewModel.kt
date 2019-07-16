@@ -97,7 +97,7 @@ class LoginViewModel(val useCase: LoginUseCase,val loginRepository: LoginReposit
 
     @SuppressLint("CheckResult")
     fun UserLogin(id : String){
-        deploymentRepository.ShapeDeployment("5d2bdc47f92aa01d590b9ecf")
+        deploymentRepository.ShapeDeployment(id)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({

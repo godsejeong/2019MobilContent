@@ -23,6 +23,6 @@ class SplashViewModel(val useCase: SplashUseCase) : ViewModel() {
 
             useCase.activity.startActivity(intent)
             useCase.activity.finish()
-        }, 3000)
+        }, 2000)
     }
 }
